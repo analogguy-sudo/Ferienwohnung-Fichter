@@ -155,7 +155,7 @@ $("logout").onclick=()=>db.auth.signOut();
 
 async function ladeWohnungen(){
   const {data,error}=await db.from("fewo_wohnungen").select("*").order("sort");
-  if(error)return msg("Wohnungen konnten nicht geladen werden: "+error.message+" (Wurde das SQL aus sql/ferienwohnungen.sql ausgeführt?)");
+  if(error)return msg(KEINE_DB+" ("+error.message+")");
   wohnungen=data;
   if(!aktiv||!data.some(w=>w.id===aktiv))aktiv=data[0]?.id;
   $("tabs").textContent="";
@@ -168,6 +168,7 @@ async function ladeWohnungen(){
   zeigeWohnung();ladeBelegt();ladeAbgleich();
 }
 const wohnung=()=>wohnungen.find(w=>w.id===aktiv);
+const KEINE_DB="Die Datenbank ist noch nicht eingerichtet: Bitte sql/ferienwohnungen.sql im SQL Editor von „Homepage_Alex_2“ ausführen (siehe EINRICHTEN.md) und diese Seite neu laden.";
 
 function zeigeWohnung(){
   const w=wohnung();if(!w)return;
@@ -179,6 +180,7 @@ function zeigeWohnung(){
 
 $("datenForm").onsubmit=async e=>{
   e.preventDefault();
+  if(!wohnung())return msg(KEINE_DB);
   const b=$("speichern");b.disabled=true;
   const upd={ausstattung:[...$("haken").querySelectorAll("input:checked")].map(c=>c.value)};
   ZAHLEN.forEach(k=>upd[k]=$(k).value===""?null:Number($(k).value));
@@ -242,6 +244,7 @@ async function ladeAbgleich(){
 }
 $("abgleichForm").onsubmit=async e=>{
   e.preventDefault();
+  if(!wohnung())return msg(KEINE_DB);
   const r=await db.from("fewo_abgleich").update({import_url:$("import_url").value.trim()||null}).eq("wohnung",aktiv);
   if(r.error)return msg("Fehler: "+r.error.message);
   msg("Link gespeichert.");ladeAbgleich();
@@ -258,6 +261,7 @@ $("jetztAbgleichen").onclick=async()=>{
 };
 $("belegtForm").onsubmit=async e=>{
   e.preventDefault();
+  if(!wohnung())return msg(KEINE_DB);
   const von=$("von").value,bis=$("bis").value;
   if(bis<=von)return msg("Die Abreise muss nach der Anreise liegen.");
   const r=await db.from("fewo_belegt").insert({wohnung:aktiv,von,bis});
@@ -307,6 +311,7 @@ function zeigeFotos(){
   });
 }
 $("neueFotos").onchange=async()=>{
+  if(!wohnung()){$("neueFotos").value="";return msg(KEINE_DB)}
   const files=[...$("neueFotos").files];if(!files.length)return;
   $("neueFotos").disabled=true;const neu=[];
   try{

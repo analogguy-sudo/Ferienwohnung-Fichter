@@ -2,7 +2,7 @@
 -- Einmal im Supabase SQL Editor dieses Projekts ausführen.
 -- Legt zwei Tabellen und den Foto-Ordner „fewo“ an. Ändern dürfen nur die Admin-Adressen.
 
-create function public.is_fewo_admin() returns boolean
+create or replace function public.is_fewo_admin() returns boolean
   language sql stable set search_path = ''
   as $$ select lower(coalesce(auth.jwt() ->> 'email', '')) in ('a_t_f@outlook.de', 'fichter_alexander@icloud.com') $$;
 
