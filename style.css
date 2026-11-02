@@ -1,0 +1,104 @@
+:root {
+  --text: #22302a;
+  --leise: #5f6d66;
+  --grund: #fbfaf6;
+  --hell: #f1eee6;
+  --akzent: #2f6b55;
+  --akzent-dunkel: #234f3f;
+  --belegt: #d98b74;
+  --frei: #dcebe2;
+  --linie: #ddd8cc;
+  --schrift: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 70px; }
+body { margin: 0; font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--text); background: var(--grund); }
+h1, h2, h3, .logo { font-family: var(--schrift); font-weight: 500; }
+a { color: var(--akzent); }
+
+.top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 24px; padding: 12px 24px; background: rgba(251,250,246,.94); backdrop-filter: blur(6px); border-bottom: 1px solid var(--linie); }
+.logo { font-size: 1.25rem; color: var(--text); text-decoration: none; margin-right: auto; }
+.menu { display: flex; gap: 20px; }
+.menu a { color: var(--text); text-decoration: none; }
+.menu a:hover { color: var(--akzent); }
+.sprachen { display: flex; gap: 2px; }
+.sprachen button { font: inherit; font-size: .85rem; padding: 4px 8px; border: 1px solid transparent; border-radius: 4px; background: none; color: var(--leise); cursor: pointer; }
+.sprachen button[aria-pressed="true"] { border-color: var(--akzent); color: var(--akzent); }
+
+.hero { min-height: 62vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 20px; color: #fff; background: linear-gradient(135deg, #2f6b55, #6f9a7c 55%, #c9b98f) center/cover; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); margin: 0 0 .3em; line-height: 1.15; }
+.hero p { font-size: 1.2rem; margin: 0 0 1.6em; }
+
+.knopf { display: inline-block; padding: 11px 22px; border-radius: 6px; background: var(--akzent); color: #fff; text-decoration: none; }
+.knopf:hover { background: var(--akzent-dunkel); }
+.knopf.rand { background: none; color: var(--akzent); border: 1px solid var(--akzent); }
+
+.hinweis-sprache { margin: 0; padding: 12px 20px; text-align: center; background: #fff4d9; border-bottom: 1px solid #ecd9a6; }
+.hinweis-klein { color: var(--leise); font-size: .95rem; }
+
+.bereich { padding: 60px max(20px, calc((100% - 1100px) / 2)); }
+.bereich.hell { background: var(--hell); }
+.bereich h2 { font-size: 2rem; margin: 0 0 24px; }
+
+.wohnung { display: grid; grid-template-columns: 1.3fr 1fr; gap: 28px 36px; padding: 32px 0; border-top: 1px solid var(--linie); }
+.wohnung:first-child { border-top: 0; padding-top: 0; }
+.fotos { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 110px; gap: 6px; }
+.fotos button { position: relative; padding: 0; border: 0; border-radius: 6px; overflow: hidden; cursor: zoom-in; background: var(--hell); }
+.fotos button.gross { grid-column: 1 / -1; grid-row: span 3; }
+.fotos[data-anzahl="1"] button.gross { grid-row: span 4; }
+.fotos img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.fotos button:hover img { transform: scale(1.03); }
+.fotos .mehr { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,.45); color: #fff; font-size: 1.3rem; }
+.fotos.leer { display: flex; align-items: center; justify-content: center; min-height: 320px; border-radius: 6px; background: repeating-linear-gradient(45deg, var(--hell), var(--hell) 12px, #ebe7dc 12px, #ebe7dc 24px); color: var(--leise); }
+
+.infos h3 { font-size: 1.7rem; margin: 0 0 6px; }
+.infos h4 { margin: 18px 0 6px; font-size: 1rem; }
+.eckdaten { display: flex; flex-wrap: wrap; gap: 6px 18px; list-style: none; padding: 0; margin: 0 0 12px; color: var(--leise); }
+.ausstattung { columns: 2; padding-left: 1.1em; margin: 0; }
+.preis { font-weight: 600; margin: 18px 0 14px; }
+
+.kalender-box { grid-column: 1 / -1; background: #fff; border: 1px solid var(--linie); border-radius: 8px; padding: 16px 20px; }
+.kalender-kopf { display: flex; justify-content: space-between; align-items: center; }
+.kalender-kopf h4 { margin: 0; }
+.kalender-kopf button { font: inherit; font-size: 1.3rem; width: 38px; height: 34px; border: 1px solid var(--linie); border-radius: 6px; background: none; color: var(--text); cursor: pointer; }
+.kalender-kopf button:disabled { opacity: .35; cursor: default; }
+.kalender { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 10px; }
+.monat-name { margin: 0 0 6px; font-weight: 600; text-transform: capitalize; }
+.tage { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; text-align: center; font-size: .9rem; }
+.wtag { color: var(--leise); font-size: .8rem; }
+.tag { padding: 5px 0; border-radius: 4px; }
+.tag.frei { background: var(--frei); }
+.tag.belegt { background: var(--belegt); color: #fff; text-decoration: line-through; }
+.tag.vorbei { color: #b9b6ad; }
+.legende { margin: 12px 0 0; font-size: .9rem; color: var(--leise); }
+.punkt { display: inline-block; width: 12px; height: 12px; border-radius: 3px; margin: 0 5px -1px 10px; }
+.punkt:first-child { margin-left: 0; }
+.punkt.frei { background: var(--frei); }
+.punkt.belegt { background: var(--belegt); }
+
+.kontakt { list-style: none; padding: 0; font-size: 1.1rem; }
+.kontakt li { margin: 4px 0; }
+
+.fuss { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding: 24px; border-top: 1px solid var(--linie); color: var(--leise); font-size: .9rem; }
+.fuss a { color: var(--leise); }
+
+#galerie { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(10,14,12,.94); }
+#galerie[open] { display: flex; align-items: center; justify-content: center; }
+#galerie img { max-width: 88vw; max-height: 86vh; object-fit: contain; }
+#galerie button { position: absolute; border: 0; background: none; color: #fff; font-size: 2.6rem; cursor: pointer; padding: 10px 18px; }
+#galerie .zu { top: 6px; right: 10px; }
+#galerie .links { left: 6px; }
+#galerie .rechts { right: 6px; }
+#galerie .zaehler { position: absolute; bottom: 10px; margin: 0; color: #ccc; }
+
+@media (max-width: 860px) {
+  .wohnung { grid-template-columns: 1fr; }
+}
+@media (max-width: 700px) {
+  .top { flex-wrap: wrap; gap: 8px 16px; padding: 10px 16px; }
+  .menu { order: 3; width: 100%; gap: 16px; font-size: .95rem; }
+  .bereich { padding: 44px 16px; }
+  .kalender { grid-template-columns: 1fr; }
+  .fotos { grid-auto-rows: 70px; }
+  .ausstattung { columns: 1; }
+}

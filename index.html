@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ferienwohnung Fichter</title>
+<meta name="description" content="Zwei Ferienwohnungen der Familie Fichter – Fotos, Ausstattung, Preise und freie Termine.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <a class="logo" href="#start">Ferienwohnung Fichter</a>
+  <nav class="menu">
+    <a href="#wohnungen" data-t="nav_wohnungen">Wohnungen</a>
+    <a href="#lage" data-t="nav_lage">Lage</a>
+    <a href="#kontakt" data-t="nav_kontakt">Kontakt</a>
+  </nav>
+  <div class="sprachen" role="group" aria-label="Sprache / Language / Langue">
+    <button type="button" data-lang="de">DE</button>
+    <button type="button" data-lang="en">EN</button>
+    <button type="button" data-lang="fr">FR</button>
+  </div>
+</header>
+
+<section id="start" class="hero">
+  <div class="hero-text">
+    <h1 data-t="hero_titel">Willkommen in der Ferienwohnung Fichter</h1>
+    <p data-t="hero_text">Zwei gemütliche Ferienwohnungen für einen erholsamen Urlaub.</p>
+    <a class="knopf" href="#wohnungen" data-t="hero_knopf">Wohnungen ansehen</a>
+  </div>
+</section>
+
+<p class="hinweis-sprache" data-t="nur_deutsch" hidden></p>
+
+<section id="wohnungen" class="bereich">
+  <h2 data-t="nav_wohnungen">Wohnungen</h2>
+  <div id="liste"></div>
+</section>
+
+<section id="lage" class="bereich hell">
+  <h2 data-t="nav_lage">Lage</h2>
+  <p data-t="lage_text">Beschreibung der Lage und Anfahrt folgt.</p>
+  <p id="adresse"></p>
+  <p><a id="karte" class="knopf rand" target="_blank" rel="noopener" data-t="karte" hidden>Auf der Karte ansehen</a></p>
+</section>
+
+<section id="kontakt" class="bereich">
+  <h2 data-t="nav_kontakt">Kontakt</h2>
+  <p data-t="kontakt_text">Am einfachsten buchen Sie direkt über FeWo-direkt. Bei Fragen erreichen Sie uns so:</p>
+  <ul id="kontaktliste" class="kontakt"></ul>
+  <p class="hinweis-klein" data-t="nur_deutsch" hidden></p>
+</section>
+
+<footer class="fuss">
+  <span>© <span id="jahr"></span> Ferienwohnung Fichter</span>
+  <a href="impressum.html" data-t="impressum">Impressum &amp; Datenschutz</a>
+</footer>
+
+<dialog id="galerie" aria-label="Fotos">
+  <button type="button" class="zu" aria-label="Schließen">×</button>
+  <button type="button" class="pfeil links" aria-label="Zurück">‹</button>
+  <img alt="">
+  <button type="button" class="pfeil rechts" aria-label="Weiter">›</button>
+  <p class="zaehler"></p>
+</dialog>
+
+<template id="vorlage-wohnung">
+  <article class="wohnung">
+    <div class="fotos"></div>
+    <div class="infos">
+      <h3 class="name"></h3>
+      <ul class="eckdaten"></ul>
+      <p class="text"></p>
+      <h4 data-t="ausstattung">Ausstattung</h4>
+      <ul class="ausstattung"></ul>
+      <p class="preis"></p>
+      <a class="knopf buchen" target="_blank" rel="noopener" data-t="buchen">Bei FeWo-direkt buchen</a>
+    </div>
+    <div class="kalender-box">
+      <div class="kalender-kopf">
+        <h4 data-t="belegung">Belegung</h4>
+        <div>
+          <button type="button" class="zurueck" aria-label="Zurück">‹</button>
+          <button type="button" class="vor" aria-label="Weiter">›</button>
+        </div>
+      </div>
+      <div class="kalender"></div>
+      <p class="legende"><span class="punkt frei"></span><span data-t="frei">frei</span> <span class="punkt belegt"></span><span data-t="belegt">belegt</span></p>
+    </div>
+  </article>
+</template>
+
+<script src="daten.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
