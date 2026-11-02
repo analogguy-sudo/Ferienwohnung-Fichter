@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ferienwohnung Fichter</title>
 <meta name="description" content="Zwei Ferienwohnungen der Familie Fichter – Fotos, Ausstattung, Preise und freie Termine.">
-<meta name="theme-color" content="#1f3d34">
+<meta name="theme-color" content="#fbf8f3">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
@@ -45,17 +45,37 @@
     <h1 data-t="hero_titel">Ankommen. Durchatmen. Urlaub.</h1>
     <p class="hero-text" data-t="hero_text">Zwei gemütliche Ferienwohnungen für einen erholsamen Urlaub.</p>
     <div class="hero-knoepfe">
-      <a class="knopf hell" href="#wohnungen"><span data-t="hero_knopf">Wohnungen ansehen</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
-      <a class="knopf glas" href="#kalender-wohnung-1"><svg class="ic"><use href="#i-kalender"/></svg><span data-t="hero_frei">Freie Termine</span></a>
+      <a class="knopf" href="#wohnungen"><span data-t="hero_knopf">Wohnungen ansehen</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+      <a class="knopf rand" href="#kalender-wohnung-1"><svg class="ic"><use href="#i-kalender"/></svg><span data-t="hero_frei">Freie Termine</span></a>
     </div>
+    <ul class="fakten">
+      <li><svg class="ic"><use href="#i-haus"/></svg><span data-t="fakt_1">2 Wohnungen</span></li>
+      <li><svg class="ic"><use href="#i-kalender"/></svg><span data-t="fakt_2">Freie Termine live</span></li>
+      <li><svg class="ic"><use href="#i-haken"/></svg><span data-t="fakt_3">Sicher buchen über FeWo-direkt</span></li>
+    </ul>
+  </div>
+  <div class="hero-bild">
+    <svg class="szene" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="g-himmel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfdcec"/><stop offset="1" stop-color="#f8e6cf"/></linearGradient>
+        <linearGradient id="g-meer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3f8fb9"/><stop offset="1" stop-color="#1d4e6b"/></linearGradient>
+      </defs>
+      <rect width="400" height="500" fill="url(#g-himmel)"/>
+      <circle cx="285" cy="215" r="62" fill="#f1b27c"/>
+      <rect y="300" width="400" height="200" fill="url(#g-meer)"/>
+      <g stroke="#fff" stroke-opacity=".45" stroke-width="3" stroke-linecap="round" fill="none">
+        <path d="M220 330h70M250 350h110M200 375h60M300 395h70M240 425h90"/>
+      </g>
+      <path d="M0 250C60 222 140 236 215 300c-50 40-120 70-215 92z" fill="#d9c2a0"/>
+      <g fill="#fff">
+        <rect x="28" y="214" width="58" height="52"/><rect x="92" y="232" width="46" height="42"/><rect x="48" y="186" width="34" height="30"/>
+      </g>
+      <g fill="#2f7ea8">
+        <path d="M47 266v-18a7 7 0 0 1 14 0v18z"/><rect x="104" y="246" width="10" height="12" rx="2"/><rect x="57" y="196" width="10" height="10" rx="2"/>
+      </g>
+    </svg>
   </div>
 </section>
-
-<div class="fakten">
-  <div><svg class="ic"><use href="#i-haus"/></svg><span data-t="fakt_1">2 Wohnungen</span></div>
-  <div><svg class="ic"><use href="#i-kalender"/></svg><span data-t="fakt_2">Freie Termine live</span></div>
-  <div><svg class="ic"><use href="#i-haken"/></svg><span data-t="fakt_3">Sicher buchen über FeWo-direkt</span></div>
-</div>
 
 <p class="hinweis-sprache" data-t="nur_deutsch" hidden></p>
 
@@ -64,6 +84,7 @@
     <p class="kicker" data-t="kicker_wohnungen">Unsere Wohnungen</p>
     <h2 data-t="titel_wohnungen">Zwei Wohnungen, ein Zuhause auf Zeit</h2>
   </div>
+  <div id="uebersicht" class="uebersicht"></div>
   <div id="liste"></div>
 </section>
 
@@ -140,7 +161,7 @@
   </article>
 </template>
 
-<script src="daten.js"></script>
-<script src="app.js"></script>
+<script src="daten.js?v=5"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

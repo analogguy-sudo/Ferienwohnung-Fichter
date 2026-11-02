@@ -23,6 +23,7 @@ const TEXTE = {
     karte: "Auf der Karte ansehen",
     kontakt_text: "Am einfachsten buchen Sie direkt über FeWo-direkt. Bei Fragen erreichen Sie uns so:",
     kontakt_folgt: "Kontaktdaten folgen.",
+    details: "Details & freie Termine",
     impressum: "Impressum & Datenschutz"
   },
   en: {
@@ -47,6 +48,7 @@ const TEXTE = {
     karte: "View on map",
     kontakt_text: "The easiest way to book is directly via FeWo-direkt. For questions you can reach us here:",
     kontakt_folgt: "Contact details will follow.",
+    details: "Details & availability",
     impressum: "Legal notice & privacy"
   },
   fr: {
@@ -71,6 +73,7 @@ const TEXTE = {
     karte: "Voir sur la carte",
     kontakt_text: "Le plus simple est de réserver directement sur FeWo-direkt. Pour toute question :",
     kontakt_folgt: "Coordonnées à venir.",
+    details: "Détails & disponibilités",
     impressum: "Mentions légales & confidentialité"
   }
 };
@@ -120,9 +123,6 @@ async function start() {
     try { localStorage.setItem("sprache", sprache); } catch (e) {}
     zeige();
   });
-  const kopf = () => $("#top").classList.toggle("ueber-hero", window.scrollY < $(".hero").offsetHeight - 80);
-  window.addEventListener("scroll", kopf, { passive: true });
-  kopf();
   zeige();
   try {
     const heute = new Date().toISOString().slice(0, 10);
@@ -145,9 +145,13 @@ function zeige() {
   document.querySelectorAll(".hinweis-sprache, .hinweis-klein").forEach(el => el.hidden = !t("nur_deutsch"));
 
   const foto = wohnungen.flatMap(w => w.fotos || [])[0];
-  const hero = $(".hero");
-  hero.classList.toggle("mit-foto", !!foto);
-  hero.style.backgroundImage = foto ? "url('" + FOTO_URL + encodeURI(foto) + "')" : "";
+  const bild = $(".hero-bild");
+  bild.classList.toggle("mit-foto", !!foto);
+  bild.style.backgroundImage = foto ? "url('" + FOTO_URL + encodeURI(foto) + "')" : "";
+
+  const uebersicht = $("#uebersicht");
+  uebersicht.textContent = "";
+  wohnungen.forEach(w => uebersicht.append(baueKarte(w)));
 
   const liste = $("#liste");
   liste.textContent = "";
@@ -172,6 +176,46 @@ function zeige() {
   if (KONTAKT.email) eintrag("mail", KONTAKT.email, "mailto:" + KONTAKT.email);
   if (KONTAKT.adresse) eintrag("ort", KONTAKT.adresse);
   if (!kl.children.length) eintrag("mail", t("kontakt_folgt"));
+}
+
+// Kleine Karte für die Übersicht oben, springt zur ausführlichen Wohnung.
+function baueKarte(w) {
+  const a = document.createElement("a");
+  a.className = "karte-w";
+  a.href = "#" + w.id;
+  const bild = document.createElement("div");
+  bild.className = "karte-bild";
+  const foto = (w.fotos || [])[0];
+  if (foto) bild.style.backgroundImage = "url('" + FOTO_URL + encodeURI(foto) + "')";
+  else { bild.classList.add("leer"); bild.append(icon("haus")); }
+
+  const text = document.createElement("div");
+  text.className = "karte-text";
+  const h = document.createElement("h3");
+  h.textContent = feld(w, "name");
+  const klein = document.createElement("p");
+  klein.className = "klein";
+  klein.textContent = [["gaeste", w.gaeste], ["schlafzimmer", w.schlafzimmer], ["qm", w.qm]].filter(([, v]) => v).map(([k, v]) => t(k, v)).join(" · ");
+
+  const fuss = document.createElement("div");
+  fuss.className = "karte-fuss";
+  const preis = document.createElement("p");
+  preis.style.margin = "0";
+  if (w.preis_ab) {
+    const b = document.createElement("strong");
+    b.textContent = Number(w.preis_ab).toLocaleString(sprache) + " €";
+    const n = document.createElement("span");
+    n.textContent = " " + t("pro_nacht");
+    preis.append(t("preis_ab") + " ", b, n);
+  } else preis.textContent = t("preis_anfrage");
+  const mehr = document.createElement("span");
+  mehr.className = "mehr-link";
+  mehr.append(t("details"), icon("pfeil"));
+  fuss.append(preis, mehr);
+
+  text.append(h, klein, fuss);
+  a.append(bild, text);
+  return a;
 }
 
 function baueWohnung(w) {
