@@ -185,6 +185,7 @@ $("datenForm").onsubmit=async e=>{
   const upd={ausstattung:[...$("haken").querySelectorAll("input:checked")].map(c=>c.value)};
   ZAHLEN.forEach(k=>upd[k]=$(k).value===""?null:Number($(k).value));
   TEXTFELDER.forEach(k=>upd[k]=$(k).value.trim()||null);
+  let hinweis="";
   if($("autoUebersetzen").checked){
     const w=wohnung(),felder=["name","text"].filter(f=>upd[f+"_de"]&&(upd[f+"_de"]!==w[f+"_de"]||!upd[f+"_en"]||!upd[f+"_fr"]));
     if(felder.length){
@@ -193,17 +194,18 @@ $("datenForm").onsubmit=async e=>{
       if(error||data?.fehler){
         let grund=data?.fehler||error.message;
         try{grund=(await error.context.json()).fehler||grund}catch(_){}
-        b.disabled=false;
-        return msg("Übersetzung fehlgeschlagen: "+grund+". Nichts gespeichert – Häkchen entfernen, um ohne Übersetzung zu speichern.");
+        hinweis=" Übersetzung nicht möglich ("+grund+"), Englisch und Französisch bleiben wie sie waren.";
+      }else{
+        felder.forEach((f,i)=>{upd[f+"_en"]=data.en[i];upd[f+"_fr"]=data.fr[i];$(f+"_en").value=data.en[i];$(f+"_fr").value=data.fr[i]});
+        hinweis=" Englisch und Französisch übersetzt.";
       }
-      felder.forEach((f,i)=>{upd[f+"_en"]=data.en[i];upd[f+"_fr"]=data.fr[i];$(f+"_en").value=data.en[i];$(f+"_fr").value=data.fr[i]});
     }
   }
   msg("Wird gespeichert …");
   const r=await db.from("fewo_wohnungen").update(upd).eq("id",aktiv);
   b.disabled=false;
   if(r.error)return msg("Fehler: "+r.error.message);
-  msg("Gespeichert.");ladeWohnungen();
+  msg("Gespeichert."+hinweis);ladeWohnungen();
 };
 
 // ---------- Belegte Tage ----------
