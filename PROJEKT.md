@@ -32,7 +32,13 @@ Eine neue Webseite für die Ferienwohnungen von Alexanders Vater. Sie ersetzt di
 - Geheime Schlüssel und Passwörter gibt Alexander nur selbst im Terminal ein, nie im Chat.
 - Werkzeuge und Vorlagen: `~/Projekte/_werkzeuge`, Vorbild für Admin-Bereich: `~/Projekte/Narvaez-arts/admin.html`.
 
-## Noch zu klären (vor dem Bauen fragen)
+## Offen (Alexander daran erinnern)
+
+- **Impressum ausfüllen** (Name und Adresse des Vaters, Telefon, E-Mail) – vor dem Veröffentlichen! Alexander hat am 2. November 2026 ausdrücklich um Erinnerung gebeten.
+- Abgleich mit FeWo-direkt per iCal, in beide Richtungen: Buchungen von FeWo-direkt in den Kalender holen, eigene Einträge aus dem Admin-Bereich an FeWo-direkt geben.
+- Bei FeWo-direkt „Buchungsanfrage“ statt „Sofortbuchung“ einstellen, damit der Vater annehmen oder ablehnen kann.
+
+## Noch zu klären (vor dem Bauen fragen, inzwischen beantwortet)
 
 1. Wie viele Wohnungen, und wo liegen sie?
 2. Inhalte: Fotos, Beschreibung, Ausstattung, Preise, Lage/Anfahrt, Belegungskalender, Anfrageformular, Bewertungen?
