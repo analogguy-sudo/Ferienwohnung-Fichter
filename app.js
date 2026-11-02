@@ -3,65 +3,74 @@
 const TEXTE = {
   de: {
     nav_wohnungen: "Wohnungen", nav_lage: "Lage", nav_kontakt: "Kontakt",
-    hero_titel: "Willkommen in der Ferienwohnung Fichter",
-    hero_text: "Zwei gemütliche Ferienwohnungen für einen erholsamen Urlaub.",
-    hero_knopf: "Wohnungen ansehen",
+    hero_kicker: "Ferienwohnung Fichter",
+    hero_titel: "Ankommen. Durchatmen. Urlaub.",
+    hero_text: "Zwei gemütliche Ferienwohnungen für einen erholsamen Urlaub – mit allem, was Sie brauchen.",
+    hero_knopf: "Wohnungen ansehen", hero_frei: "Freie Termine",
+    fakt_1: "2 Ferienwohnungen", fakt_2: "Freie Termine auf einen Blick", fakt_3: "Sicher buchen über FeWo-direkt",
+    kicker_wohnungen: "Unsere Wohnungen", titel_wohnungen: "Zwei Wohnungen, ein Zuhause auf Zeit",
+    titel_lage: "So finden Sie uns", titel_kontakt: "Fragen? Wir helfen gern.",
     nur_deutsch: "",
     ausstattung: "Ausstattung", belegung: "Belegung", frei: "frei", belegt: "belegt",
     buchen: "Bei FeWo-direkt buchen", anfragen: "Anfragen",
     gaeste: n => n + (n == 1 ? " Gast" : " Gäste"),
-    schlafzimmer: n => n + (n == 1 ? " Schlafzimmer" : " Schlafzimmer"),
+    schlafzimmer: n => n + " Schlafzimmer",
     qm: n => n + " m²",
-    preis: p => "ab " + p + " € pro Nacht",
+    preis_ab: "ab", pro_nacht: "/ Nacht", preis_anfrage: "Preis auf Anfrage",
     mindest: n => "Mindestaufenthalt " + n + (n == 1 ? " Nacht" : " Nächte"),
     keine_fotos: "Fotos folgen",
     lage_text: "Beschreibung der Lage und Anfahrt folgt.",
     karte: "Auf der Karte ansehen",
     kontakt_text: "Am einfachsten buchen Sie direkt über FeWo-direkt. Bei Fragen erreichen Sie uns so:",
     kontakt_folgt: "Kontaktdaten folgen.",
-    telefon: "Telefon", email: "E-Mail",
     impressum: "Impressum & Datenschutz"
   },
   en: {
     nav_wohnungen: "Apartments", nav_lage: "Location", nav_kontakt: "Contact",
-    hero_titel: "Welcome to Ferienwohnung Fichter",
-    hero_text: "Two cosy holiday apartments for a relaxing stay.",
-    hero_knopf: "See the apartments",
+    hero_kicker: "Ferienwohnung Fichter",
+    hero_titel: "Arrive. Unwind. Holiday.",
+    hero_text: "Two cosy holiday apartments for a relaxing stay – with everything you need.",
+    hero_knopf: "See the apartments", hero_frei: "Availability",
+    fakt_1: "2 holiday apartments", fakt_2: "Availability at a glance", fakt_3: "Secure booking via FeWo-direkt",
+    kicker_wohnungen: "Our apartments", titel_wohnungen: "Two apartments, your home away from home",
+    titel_lage: "How to find us", titel_kontakt: "Questions? We're happy to help.",
     nur_deutsch: "Please note: the host only speaks German. Booking via FeWo-direkt is the easiest way.",
     ausstattung: "Amenities", belegung: "Availability", frei: "available", belegt: "booked",
     buchen: "Book on FeWo-direkt", anfragen: "Enquire",
     gaeste: n => n + (n == 1 ? " guest" : " guests"),
     schlafzimmer: n => n + (n == 1 ? " bedroom" : " bedrooms"),
     qm: n => n + " m²",
-    preis: p => "from €" + p + " per night",
+    preis_ab: "from", pro_nacht: "/ night", preis_anfrage: "Price on request",
     mindest: n => "Minimum stay " + n + (n == 1 ? " night" : " nights"),
     keine_fotos: "Photos coming soon",
     lage_text: "A description of the location and directions will follow.",
     karte: "View on map",
     kontakt_text: "The easiest way to book is directly via FeWo-direkt. For questions you can reach us here:",
     kontakt_folgt: "Contact details will follow.",
-    telefon: "Phone", email: "Email",
     impressum: "Legal notice & privacy"
   },
   fr: {
     nav_wohnungen: "Appartements", nav_lage: "Situation", nav_kontakt: "Contact",
-    hero_titel: "Bienvenue à la Ferienwohnung Fichter",
-    hero_text: "Deux appartements de vacances confortables pour un séjour reposant.",
-    hero_knopf: "Voir les appartements",
+    hero_kicker: "Ferienwohnung Fichter",
+    hero_titel: "Arriver. Respirer. Profiter.",
+    hero_text: "Deux appartements de vacances confortables pour un séjour reposant – avec tout le nécessaire.",
+    hero_knopf: "Voir les appartements", hero_frei: "Disponibilités",
+    fakt_1: "2 appartements de vacances", fakt_2: "Disponibilités en un coup d'œil", fakt_3: "Réservation sécurisée via FeWo-direkt",
+    kicker_wohnungen: "Nos appartements", titel_wohnungen: "Deux appartements, un chez-soi le temps des vacances",
+    titel_lage: "Comment nous trouver", titel_kontakt: "Des questions ? Nous sommes là.",
     nur_deutsch: "Attention : le propriétaire ne parle qu'allemand. Le plus simple est de réserver via FeWo-direkt.",
     ausstattung: "Équipements", belegung: "Disponibilités", frei: "libre", belegt: "réservé",
     buchen: "Réserver sur FeWo-direkt", anfragen: "Demander",
     gaeste: n => n + (n == 1 ? " personne" : " personnes"),
     schlafzimmer: n => n + (n == 1 ? " chambre" : " chambres"),
     qm: n => n + " m²",
-    preis: p => "à partir de " + p + " € la nuit",
+    preis_ab: "à partir de", pro_nacht: "/ nuit", preis_anfrage: "Prix sur demande",
     mindest: n => "Séjour minimum " + n + (n == 1 ? " nuit" : " nuits"),
     keine_fotos: "Photos à venir",
     lage_text: "La description de la situation et de l'accès suivra.",
     karte: "Voir sur la carte",
     kontakt_text: "Le plus simple est de réserver directement sur FeWo-direkt. Pour toute question :",
     kontakt_folgt: "Coordonnées à venir.",
-    telefon: "Téléphone", email: "E-mail",
     impressum: "Mentions légales & confidentialité"
   }
 };
@@ -88,6 +97,16 @@ function feld(w, name) {
   return w[name + "_" + sprache] || w[name + "_de"] || "";
 }
 
+function icon(name) {
+  const ns = "http://www.w3.org/2000/svg";
+  const svg = document.createElementNS(ns, "svg");
+  svg.setAttribute("class", "ic");
+  const use = document.createElementNS(ns, "use");
+  use.setAttribute("href", "#i-" + name);
+  svg.append(use);
+  return svg;
+}
+
 async function lade(pfad) {
   const r = await fetch(SB_URL + "/rest/v1/" + pfad, { headers: { apikey: SB_KEY } });
   if (!r.ok) throw new Error(r.status);
@@ -101,6 +120,9 @@ async function start() {
     try { localStorage.setItem("sprache", sprache); } catch (e) {}
     zeige();
   });
+  const kopf = () => $("#top").classList.toggle("ueber-hero", window.scrollY < $(".hero").offsetHeight - 80);
+  window.addEventListener("scroll", kopf, { passive: true });
+  kopf();
   zeige();
   try {
     const heute = new Date().toISOString().slice(0, 10);
@@ -119,38 +141,37 @@ async function start() {
 function zeige() {
   document.documentElement.lang = sprache;
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === sprache));
-  document.querySelectorAll("[data-t]").forEach(el => {
-    const x = t(el.dataset.t);
-    if (el.classList.contains("hinweis-sprache") || el.classList.contains("hinweis-klein")) el.hidden = !x;
-    el.textContent = x;
-  });
+  document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
+  document.querySelectorAll(".hinweis-sprache, .hinweis-klein").forEach(el => el.hidden = !t("nur_deutsch"));
 
   const foto = wohnungen.flatMap(w => w.fotos || [])[0];
-  $(".hero").style.backgroundImage = foto
-    ? "linear-gradient(rgba(20,30,25,.35),rgba(20,30,25,.55)),url('" + FOTO_URL + encodeURI(foto) + "')"
-    : "";
+  const hero = $(".hero");
+  hero.classList.toggle("mit-foto", !!foto);
+  hero.style.backgroundImage = foto ? "url('" + FOTO_URL + encodeURI(foto) + "')" : "";
 
   const liste = $("#liste");
   liste.textContent = "";
   wohnungen.forEach(w => liste.append(baueWohnung(w)));
 
-  $("#adresse").textContent = KONTAKT.adresse;
+  $("#adresse").hidden = !KONTAKT.adresse;
+  $("#adresse span").textContent = KONTAKT.adresse;
   $("#karte").hidden = !KONTAKT.karte;
   if (KONTAKT.karte) $("#karte").href = KONTAKT.karte;
 
   const kl = $("#kontaktliste");
   kl.textContent = "";
-  const eintrag = (titel, text, href) => {
+  const eintrag = (ic, text, href) => {
     const li = document.createElement("li");
-    li.append(titel + ": ");
-    const a = document.createElement("a");
-    a.href = href; a.textContent = text;
-    li.append(a); kl.append(li);
+    li.append(icon(ic));
+    const el = document.createElement(href ? "a" : "span");
+    if (href) el.href = href;
+    el.textContent = text;
+    li.append(el); kl.append(li);
   };
-  if (KONTAKT.telefon) eintrag(t("telefon"), KONTAKT.telefon, "tel:" + KONTAKT.telefon.replace(/[^+\d]/g, ""));
-  if (KONTAKT.email) eintrag(t("email"), KONTAKT.email, "mailto:" + KONTAKT.email);
-  if (!kl.children.length) { const li = document.createElement("li"); li.textContent = t("kontakt_folgt"); kl.append(li); }
-  else { const li = document.createElement("li"); li.textContent = KONTAKT.name; kl.prepend(li); }
+  if (KONTAKT.telefon) eintrag("telefon", KONTAKT.telefon, "tel:" + KONTAKT.telefon.replace(/[^+\d]/g, ""));
+  if (KONTAKT.email) eintrag("mail", KONTAKT.email, "mailto:" + KONTAKT.email);
+  if (KONTAKT.adresse) eintrag("ort", KONTAKT.adresse);
+  if (!kl.children.length) eintrag("mail", t("kontakt_folgt"));
 }
 
 function baueWohnung(w) {
@@ -161,26 +182,41 @@ function baueWohnung(w) {
   el.querySelector(".text").textContent = feld(w, "text");
 
   const eck = el.querySelector(".eckdaten");
-  [["gaeste", w.gaeste], ["schlafzimmer", w.schlafzimmer], ["qm", w.qm]].forEach(([k, v]) => {
-    if (v) { const li = document.createElement("li"); li.textContent = t(k, v); eck.append(li); }
+  [["gaeste", "gast", w.gaeste], ["schlafzimmer", "bett", w.schlafzimmer], ["qm", "flaeche", w.qm]].forEach(([k, ic, v]) => {
+    if (!v) return;
+    const li = document.createElement("li");
+    li.append(icon(ic), t(k, v));
+    eck.append(li);
   });
 
   const aus = el.querySelector(".ausstattung");
   (w.ausstattung || []).forEach(k => {
     if (!AUSSTATTUNG[k]) return;
-    const li = document.createElement("li"); li.textContent = AUSSTATTUNG[k][sprache]; aus.append(li);
+    const li = document.createElement("li");
+    li.append(icon("haken"), AUSSTATTUNG[k][sprache]);
+    aus.append(li);
   });
   if (!aus.children.length) { aus.previousElementSibling.remove(); aus.remove(); }
 
-  const preis = [];
-  if (w.preis_ab) preis.push(t("preis", Number(w.preis_ab).toLocaleString(sprache)));
-  if (w.mindest_naechte) preis.push(t("mindest", w.mindest_naechte));
-  el.querySelector(".preis").textContent = preis.join(" · ");
+  if (w.preis_ab) {
+    el.querySelector(".preis-ab").textContent = t("preis_ab");
+    el.querySelector(".preis-betrag").textContent = Number(w.preis_ab).toLocaleString(sprache) + " €";
+    el.querySelector(".preis-nacht").textContent = t("pro_nacht");
+  } else {
+    el.querySelector(".preis-ab").textContent = t("preis_anfrage");
+  }
+  el.querySelector(".mindest").textContent = w.mindest_naechte ? t("mindest", w.mindest_naechte) : "";
 
   const buchen = el.querySelector(".buchen");
   if (w.fewo_url) buchen.href = w.fewo_url;
-  else if (KONTAKT.email) { buchen.href = "mailto:" + KONTAKT.email + "?subject=" + encodeURIComponent(feld(w, "name")); buchen.textContent = t("anfragen"); }
-  else buchen.remove();
+  else if (KONTAKT.email) {
+    buchen.href = "mailto:" + KONTAKT.email + "?subject=" + encodeURIComponent(feld(w, "name"));
+    buchen.removeAttribute("target");
+    buchen.querySelector("span").textContent = t("anfragen");
+  } else buchen.remove();
+
+  el.querySelector(".kalender-box").id = "kalender-" + w.id;
+  el.querySelector(".frei-link").href = "#kalender-" + w.id;
 
   baueFotos(el.querySelector(".fotos"), w);
   baueKalender(el, w.id);
@@ -191,24 +227,29 @@ function baueFotos(box, w) {
   const fotos = w.fotos || [];
   if (!fotos.length) {
     box.classList.add("leer");
-    box.textContent = t("keine_fotos");
+    const p = document.createElement("span");
+    p.textContent = t("keine_fotos");
+    box.append(icon("haus"), p);
     return;
   }
   fotos.slice(0, 5).forEach((f, i) => {
     const b = document.createElement("button");
     b.type = "button";
-    b.className = i === 0 ? "gross" : "";
+    if (i === 0) b.className = "gross";
     const img = document.createElement("img");
     img.src = FOTO_URL + encodeURI(f);
     img.alt = feld(w, "name") + " – Foto " + (i + 1);
-    img.loading = "lazy";
+    img.loading = i === 0 ? "eager" : "lazy";
     b.append(img);
-    if (i === 4 && fotos.length > 5) {
-      const mehr = document.createElement("span"); mehr.className = "mehr"; mehr.textContent = "+" + (fotos.length - 5); b.append(mehr);
-    }
     b.onclick = () => oeffneGalerie(fotos, i);
     box.append(b);
   });
+  if (fotos.length > 1) {
+    const mehr = document.createElement("span");
+    mehr.className = "mehr";
+    mehr.textContent = "1 / " + fotos.length;
+    box.firstElementChild.append(mehr);
+  }
   box.dataset.anzahl = Math.min(fotos.length, 5);
 }
 
@@ -248,14 +289,17 @@ function iso(d) {
   return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0");
 }
 
+function monateSichtbar() {
+  return window.innerWidth <= 760 ? 1 : window.innerWidth <= 1000 ? 2 : 3;
+}
+
 function baueKalender(el, wohnung) {
   const box = el.querySelector(".kalender");
   let versatz = 0;
   const maxVersatz = 11;
   const zeichne = () => {
     box.textContent = "";
-    const anzahl = window.matchMedia("(max-width: 700px)").matches ? 1 : 2;
-    for (let m = 0; m < anzahl; m++) box.append(baueMonat(wohnung, versatz + m));
+    for (let m = 0; m < monateSichtbar(); m++) box.append(baueMonat(wohnung, versatz + m));
     el.querySelector(".zurueck").disabled = versatz === 0;
     el.querySelector(".vor").disabled = versatz >= maxVersatz;
   };
@@ -297,10 +341,9 @@ function baueMonat(wohnung, versatz) {
   return div;
 }
 
-let breite = window.innerWidth;
+let spalten = monateSichtbar();
 window.addEventListener("resize", () => {
-  if ((breite > 700) !== (window.innerWidth > 700)) zeige();
-  breite = window.innerWidth;
+  if (monateSichtbar() !== spalten) { spalten = monateSichtbar(); zeige(); }
 });
 
 start();

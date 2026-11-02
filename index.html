@@ -5,13 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ferienwohnung Fichter</title>
 <meta name="description" content="Zwei Ferienwohnungen der Familie Fichter – Fotos, Ausstattung, Preise und freie Termine.">
+<meta name="theme-color" content="#1f3d34">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="top">
-  <a class="logo" href="#start">Ferienwohnung Fichter</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-gast" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></symbol>
+  <symbol id="i-bett" viewBox="0 0 24 24"><path d="M3 18V6M3 13h18v5M21 18v-3a3 3 0 0 0-3-3h-7v1"/><circle cx="7" cy="10" r="2"/></symbol>
+  <symbol id="i-flaeche" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 10h6V4"/></symbol>
+  <symbol id="i-haken" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-pfeil" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-kalender" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-haus" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z"/><path d="M10 20v-5h4v5"/></symbol>
+  <symbol id="i-sprache" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></symbol>
+  <symbol id="i-ort" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+  <symbol id="i-telefon" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6l8.5 7 8.5-7"/></symbol>
+</svg>
+
+<header class="top" id="top">
+  <a class="logo" href="#start"><svg class="ic"><use href="#i-haus"/></svg>Ferienwohnung Fichter</a>
   <nav class="menu">
     <a href="#wohnungen" data-t="nav_wohnungen">Wohnungen</a>
     <a href="#lage" data-t="nav_lage">Lage</a>
@@ -25,36 +40,61 @@
 </header>
 
 <section id="start" class="hero">
-  <div class="hero-text">
-    <h1 data-t="hero_titel">Willkommen in der Ferienwohnung Fichter</h1>
-    <p data-t="hero_text">Zwei gemütliche Ferienwohnungen für einen erholsamen Urlaub.</p>
-    <a class="knopf" href="#wohnungen" data-t="hero_knopf">Wohnungen ansehen</a>
+  <div class="hero-inhalt">
+    <p class="kicker" data-t="hero_kicker">Ferienwohnungen</p>
+    <h1 data-t="hero_titel">Ankommen. Durchatmen. Urlaub.</h1>
+    <p class="hero-text" data-t="hero_text">Zwei gemütliche Ferienwohnungen für einen erholsamen Urlaub.</p>
+    <div class="hero-knoepfe">
+      <a class="knopf hell" href="#wohnungen"><span data-t="hero_knopf">Wohnungen ansehen</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+      <a class="knopf glas" href="#kalender-wohnung-1"><svg class="ic"><use href="#i-kalender"/></svg><span data-t="hero_frei">Freie Termine</span></a>
+    </div>
   </div>
 </section>
+
+<div class="fakten">
+  <div><svg class="ic"><use href="#i-haus"/></svg><span data-t="fakt_1">2 Wohnungen</span></div>
+  <div><svg class="ic"><use href="#i-kalender"/></svg><span data-t="fakt_2">Freie Termine live</span></div>
+  <div><svg class="ic"><use href="#i-haken"/></svg><span data-t="fakt_3">Sicher buchen über FeWo-direkt</span></div>
+</div>
 
 <p class="hinweis-sprache" data-t="nur_deutsch" hidden></p>
 
 <section id="wohnungen" class="bereich">
-  <h2 data-t="nav_wohnungen">Wohnungen</h2>
+  <div class="bereich-kopf">
+    <p class="kicker" data-t="kicker_wohnungen">Unsere Wohnungen</p>
+    <h2 data-t="titel_wohnungen">Zwei Wohnungen, ein Zuhause auf Zeit</h2>
+  </div>
   <div id="liste"></div>
 </section>
 
-<section id="lage" class="bereich hell">
-  <h2 data-t="nav_lage">Lage</h2>
-  <p data-t="lage_text">Beschreibung der Lage und Anfahrt folgt.</p>
-  <p id="adresse"></p>
-  <p><a id="karte" class="knopf rand" target="_blank" rel="noopener" data-t="karte" hidden>Auf der Karte ansehen</a></p>
+<section id="lage" class="bereich ton">
+  <div class="lage">
+    <div>
+      <p class="kicker" data-t="nav_lage">Lage</p>
+      <h2 data-t="titel_lage">So finden Sie uns</h2>
+      <p data-t="lage_text">Beschreibung der Lage und Anfahrt folgt.</p>
+      <p id="adresse" class="mit-ic" hidden><svg class="ic"><use href="#i-ort"/></svg><span></span></p>
+      <a id="karte" class="knopf rand" target="_blank" rel="noopener" hidden><span data-t="karte">Auf der Karte ansehen</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+    </div>
+    <div class="lage-bild" aria-hidden="true"><svg class="ic"><use href="#i-ort"/></svg></div>
+  </div>
 </section>
 
 <section id="kontakt" class="bereich">
-  <h2 data-t="nav_kontakt">Kontakt</h2>
-  <p data-t="kontakt_text">Am einfachsten buchen Sie direkt über FeWo-direkt. Bei Fragen erreichen Sie uns so:</p>
-  <ul id="kontaktliste" class="kontakt"></ul>
-  <p class="hinweis-klein" data-t="nur_deutsch" hidden></p>
+  <div class="kontakt-karte">
+    <div>
+      <p class="kicker" data-t="nav_kontakt">Kontakt</p>
+      <h2 data-t="titel_kontakt">Fragen? Wir helfen gern.</h2>
+      <p data-t="kontakt_text">Am einfachsten buchen Sie direkt über FeWo-direkt. Bei Fragen erreichen Sie uns so:</p>
+      <p class="hinweis-klein mit-ic" hidden><svg class="ic"><use href="#i-sprache"/></svg><span data-t="nur_deutsch"></span></p>
+    </div>
+    <ul id="kontaktliste" class="kontakt"></ul>
+  </div>
 </section>
 
 <footer class="fuss">
-  <span>© <span id="jahr"></span> Ferienwohnung Fichter</span>
+  <span class="logo"><svg class="ic"><use href="#i-haus"/></svg>Ferienwohnung Fichter</span>
+  <span>© <span id="jahr"></span></span>
   <a href="impressum.html" data-t="impressum">Impressum &amp; Datenschutz</a>
 </footer>
 
@@ -68,26 +108,34 @@
 
 <template id="vorlage-wohnung">
   <article class="wohnung">
-    <div class="fotos"></div>
-    <div class="infos">
+    <div class="wohnung-kopf">
       <h3 class="name"></h3>
       <ul class="eckdaten"></ul>
-      <p class="text"></p>
-      <h4 data-t="ausstattung">Ausstattung</h4>
-      <ul class="ausstattung"></ul>
-      <p class="preis"></p>
-      <a class="knopf buchen" target="_blank" rel="noopener" data-t="buchen">Bei FeWo-direkt buchen</a>
+    </div>
+    <div class="fotos"></div>
+    <div class="wohnung-inhalt">
+      <div class="beschreibung">
+        <p class="text"></p>
+        <h4 data-t="ausstattung">Ausstattung</h4>
+        <ul class="ausstattung"></ul>
+      </div>
+      <aside class="buchung">
+        <p class="preis"><span class="preis-ab"></span><strong class="preis-betrag"></strong><span class="preis-nacht"></span></p>
+        <p class="mindest"></p>
+        <a class="knopf buchen" target="_blank" rel="noopener"><span data-t="buchen">Bei FeWo-direkt buchen</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+        <a class="knopf rand frei-link"><svg class="ic"><use href="#i-kalender"/></svg><span data-t="hero_frei">Freie Termine</span></a>
+      </aside>
     </div>
     <div class="kalender-box">
       <div class="kalender-kopf">
         <h4 data-t="belegung">Belegung</h4>
-        <div>
+        <p class="legende"><span class="punkt frei"></span><span data-t="frei">frei</span><span class="punkt belegt"></span><span data-t="belegt">belegt</span></p>
+        <div class="kalender-nav">
           <button type="button" class="zurueck" aria-label="Zurück">‹</button>
           <button type="button" class="vor" aria-label="Weiter">›</button>
         </div>
       </div>
       <div class="kalender"></div>
-      <p class="legende"><span class="punkt frei"></span><span data-t="frei">frei</span> <span class="punkt belegt"></span><span data-t="belegt">belegt</span></p>
     </div>
   </article>
 </template>
