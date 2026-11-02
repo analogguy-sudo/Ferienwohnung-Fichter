@@ -1,2 +1,5 @@
 [functions.fewo-ical]
 verify_jwt = false
+
+[functions.fewo-uebersetzen]
+verify_jwt = true

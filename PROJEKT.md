@@ -18,6 +18,7 @@ Stand: 2. November 2026 – erste Version gebaut, noch nicht online.
 - `daten.js`: Supabase-Zugang, Kontaktdaten, Liste der Ausstattung (DE/EN/FR), Platzhalter.
 - `admin.html`: Preise, Texte, Ausstattung, Fotos und belegte Tage pflegen.
 - `impressum.html`: Impressum und Datenschutz – Platzhalter in [eckigen Klammern] müssen vor dem Veröffentlichen ausgefüllt werden.
+- `supabase/functions/fewo-uebersetzen/index.ts`: übersetzt Name und Beschreibung beim Speichern mit DeepL (Secret `DEEPL_KEY`).
 - `supabase/functions/fewo-ical/index.ts`: Abgleich mit FeWo-direkt per iCal in beide Richtungen (stündlich per pg_cron). Nur Daten, keine Gästenamen.
 - `sql/ferienwohnungen.sql`: einmal im SQL Editor von „Homepage_Alex_2“ ausführen (Tabellen `fewo_wohnungen`, `fewo_belegt`, Foto-Ordner `fewo`).
 

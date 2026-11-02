@@ -26,6 +26,8 @@ button:disabled{opacity:.5;cursor:wait}
 .haken{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 14px;margin-top:8px}
 .haken label{display:flex;gap:8px;align-items:center;margin:0;color:inherit;font-size:.95rem}
 .haken input{width:auto;margin:0}
+.haken-einzeln{display:flex;gap:8px;align-items:center;color:inherit}
+.haken-einzeln input{width:auto;margin:0}
 .fotos{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
 .foto{width:120px}
 .foto img{width:120px;height:90px;object-fit:cover;border-radius:4px;display:block;background:#eee}
@@ -99,7 +101,8 @@ button:disabled{opacity:.5;cursor:wait}
     <label for="text_de">Beschreibung (Deutsch)</label><textarea id="text_de" maxlength="3000"></textarea>
     <label for="text_en">Beschreibung (English)</label><textarea id="text_en" maxlength="3000"></textarea>
     <label for="text_fr">Beschreibung (Français)</label><textarea id="text_fr" maxlength="3000"></textarea>
-    <p class="note">Leere englische oder französische Felder zeigen auf der Seite den deutschen Text.</p>
+    <label class="haken-einzeln"><input id="autoUebersetzen" type="checkbox" checked> Beim Speichern Englisch und Französisch automatisch aus dem Deutschen übersetzen (DeepL)</label>
+    <p class="note">Übersetzt wird nur, wenn sich der deutsche Text geändert hat oder die Übersetzung fehlt. Eigene Korrekturen im Englischen oder Französischen bleiben sonst erhalten. Leere Felder zeigen auf der Seite den deutschen Text.</p>
 
     <h2>Ausstattung</h2>
     <div class="haken" id="haken"></div>
@@ -180,6 +183,20 @@ $("datenForm").onsubmit=async e=>{
   const upd={ausstattung:[...$("haken").querySelectorAll("input:checked")].map(c=>c.value)};
   ZAHLEN.forEach(k=>upd[k]=$(k).value===""?null:Number($(k).value));
   TEXTFELDER.forEach(k=>upd[k]=$(k).value.trim()||null);
+  if($("autoUebersetzen").checked){
+    const w=wohnung(),felder=["name","text"].filter(f=>upd[f+"_de"]&&(upd[f+"_de"]!==w[f+"_de"]||!upd[f+"_en"]||!upd[f+"_fr"]));
+    if(felder.length){
+      msg("Wird übersetzt …");
+      const {data,error}=await db.functions.invoke("fewo-uebersetzen",{body:{texte:felder.map(f=>upd[f+"_de"])}});
+      if(error||data?.fehler){
+        let grund=data?.fehler||error.message;
+        try{grund=(await error.context.json()).fehler||grund}catch(_){}
+        b.disabled=false;
+        return msg("Übersetzung fehlgeschlagen: "+grund+". Nichts gespeichert – Häkchen entfernen, um ohne Übersetzung zu speichern.");
+      }
+      felder.forEach((f,i)=>{upd[f+"_en"]=data.en[i];upd[f+"_fr"]=data.fr[i];$(f+"_en").value=data.en[i];$(f+"_fr").value=data.fr[i]});
+    }
+  }
   msg("Wird gespeichert …");
   const r=await db.from("fewo_wohnungen").update(upd).eq("id",aktiv);
   b.disabled=false;

@@ -16,6 +16,14 @@ Edge Functions → Deploy a new function → Via Editor:
 
 Test: https://owbbsnujnkhyyqvagtai.supabase.co/functions/v1/fewo-ical?wohnung=wohnung-1 im Browser öffnen. Es muss ein Text mit `BEGIN:VCALENDAR` erscheinen.
 
+## 2b. Automatisch übersetzen (DeepL)
+
+1. Kostenloses Konto „DeepL API Free“ anlegen: https://www.deepl.com/pro-api (nicht das normale DeepL Pro). Unter „Konto → API-Schlüssel“ den Schlüssel kopieren (er endet auf `:fx`).
+2. Supabase → Edge Functions → Secrets → Add new secret: Name `DEEPL_KEY`, Wert = der Schlüssel. Den Schlüssel nirgends sonst eintragen, auch nicht im Chat.
+3. Edge Functions → Deploy a new function → Via Editor: Name `fewo-uebersetzen`, Inhalt von `supabase/functions/fewo-uebersetzen/index.ts` → Deploy. Hier **Verify JWT eingeschaltet lassen** (nur angemeldete Admins dürfen übersetzen).
+
+Im Admin-Bereich ist das Häkchen „automatisch übersetzen“ dann standardmäßig an.
+
 ## 3. FeWo-direkt verbinden (pro Wohnung)
 
 Im Vermieterkonto bei FeWo-direkt, Kalender der Wohnung:
