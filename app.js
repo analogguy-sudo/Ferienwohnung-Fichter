@@ -146,7 +146,7 @@ function zeige() {
 
   const foto = wohnungen.flatMap(w => w.fotos || [])[0];
   const bild = $(".hero-bild");
-  bild.classList.toggle("mit-foto", !!foto);
+  bild.hidden = !foto;
   bild.style.backgroundImage = foto ? "url('" + FOTO_URL + encodeURI(foto) + "')" : "";
 
   const uebersicht = $("#uebersicht");

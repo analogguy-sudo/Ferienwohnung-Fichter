@@ -48,12 +48,10 @@ a { color: var(--fels); }
 .hero h1 { grid-area: h; font-size: clamp(2.8rem, 6.4vw, 5.2rem); line-height: 1.02; margin: 0; }
 .hero-text { grid-area: t; font-size: 1.12rem; color: var(--leise); margin: 0 0 24px; }
 .hero-knoepfe { grid-area: b; display: flex; flex-wrap: wrap; gap: 12px; }
-.fakten { grid-area: f; display: flex; flex-wrap: wrap; gap: 10px 36px; list-style: none; padding: 0; margin: 48px 0 20px; font-size: .9rem; color: var(--leise); }
+.fakten { grid-area: f; display: flex; flex-wrap: wrap; gap: 10px 36px; list-style: none; padding: 28px 0 0; margin: 48px 0 20px; border-top: 1px solid var(--linie); font-size: .9rem; color: var(--leise); }
 .fakten li { display: flex; align-items: center; gap: 9px; }
 .fakten .ic { color: var(--fels); }
 .hero-bild { position: relative; height: clamp(260px, 38vw, 460px); border-radius: var(--rund); overflow: hidden; background: var(--ton) center / cover; animation: hoch .9s .1s ease both; }
-.szene { display: block; width: 100%; height: 100%; }
-.hero-bild.mit-foto .szene { display: none; }
 @keyframes hoch { from { opacity: 0; transform: translateY(14px); } }
 
 /* ---------- Knöpfe ---------- */
@@ -76,8 +74,8 @@ a { color: var(--fels); }
 .karte-w { display: flex; flex-direction: column; color: inherit; text-decoration: none; }
 .karte-bild { aspect-ratio: 3 / 2; border-radius: var(--rund); background: center / cover; display: flex; align-items: center; justify-content: center; overflow: hidden; transition: filter .3s; }
 .karte-w:hover .karte-bild { filter: brightness(1.06); }
-.karte-bild.leer { background: linear-gradient(180deg, #e7dcc6 0 45%, #98a98d 45% 62%, #5f7c5c 62% 80%, #33503b 80%); }
-.karte-bild.leer .ic { width: 40px; height: 40px; color: #fff; opacity: .9; }
+.karte-bild.leer { background: var(--ton); }
+.karte-bild.leer .ic { width: 32px; height: 32px; color: var(--fels); opacity: .6; }
 .karte-text { display: flex; flex-direction: column; gap: 6px; padding: 20px 0 0; }
 .karte-text h3 { margin: 0; font-size: 1.7rem; }
 .karte-w:hover h3 { color: var(--fels); }
