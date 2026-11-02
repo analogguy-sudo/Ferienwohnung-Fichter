@@ -51,7 +51,8 @@ a { color: var(--fels); }
 .fakten { grid-area: f; display: flex; flex-wrap: wrap; gap: 10px 36px; list-style: none; padding: 28px 0 0; margin: 48px 0 20px; border-top: 1px solid var(--linie); font-size: .9rem; color: var(--leise); }
 .fakten li { display: flex; align-items: center; gap: 9px; }
 .fakten .ic { color: var(--fels); }
-.hero-bild { position: relative; height: clamp(260px, 38vw, 460px); border-radius: var(--rund); overflow: hidden; background: var(--ton) center / cover; animation: hoch .9s .1s ease both; }
+.hero-bild { position: relative; height: clamp(280px, 44vw, 560px); border-radius: var(--rund); overflow: hidden; background: var(--ton) center / cover; animation: hoch .9s .1s ease both; }
+.hero-bild img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
 @keyframes hoch { from { opacity: 0; transform: translateY(14px); } }
 
 /* ---------- Knöpfe ---------- */
@@ -191,7 +192,7 @@ a { color: var(--fels); }
   .menu { order: 3; width: 100%; gap: 22px; font-size: .9rem; }
   .hero { padding: 40px 16px 0; }
   .fakten { flex-direction: column; gap: 8px; margin: 32px 0 24px; }
-  .hero-bild { height: 230px; margin: 0 -16px; border-radius: 0; }
+  .hero-bild { height: 300px; margin: 0 -16px; border-radius: 0; }
   .hinweis-sprache { margin: 32px 16px 0; }
   .bereich { padding: 72px 16px; }
   .uebersicht { grid-template-columns: 1fr; gap: 36px; margin-bottom: 72px; }

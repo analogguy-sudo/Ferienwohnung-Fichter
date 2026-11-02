@@ -144,11 +144,6 @@ function zeige() {
   document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
   document.querySelectorAll(".hinweis-sprache, .hinweis-klein").forEach(el => el.hidden = !t("nur_deutsch"));
 
-  const foto = wohnungen.flatMap(w => w.fotos || [])[0];
-  const bild = $(".hero-bild");
-  bild.hidden = !foto;
-  bild.style.backgroundImage = foto ? "url('" + FOTO_URL + encodeURI(foto) + "')" : "";
-
   const uebersicht = $("#uebersicht");
   uebersicht.textContent = "";
   wohnungen.forEach(w => uebersicht.append(baueKarte(w)));
