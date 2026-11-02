@@ -38,6 +38,7 @@ Eine neue Webseite für die Ferienwohnungen von Alexanders Vater. Sie ersetzt di
 
 ## Offen (Alexander daran erinnern)
 
+- **Testversion online mit noindex + robots.txt**: vor dem richtigen Start in index.html und impressum.html die Zeile `<meta name="robots" content="noindex">` und die Datei robots.txt entfernen.
 - **Impressum ausfüllen**: Name und Adresse sind drin (Ludwig Fichter, Von-Gienanth-Straße 9, 66996 Schönau). Es fehlen noch Telefon und E-Mail (auch in `daten.js`) – vor dem Veröffentlichen! Alexander hat am 2. November 2026 ausdrücklich um Erinnerung gebeten.
 - Einrichten nach `EINRICHTEN.md` (SQL, Funktion fewo-ical, FeWo-direkt verbinden).
 - Bei FeWo-direkt „Buchungsanfrage“ statt „Sofortbuchung“ einstellen, damit der Vater annehmen oder ablehnen kann.
