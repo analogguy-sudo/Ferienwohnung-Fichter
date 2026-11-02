@@ -21,6 +21,8 @@ Stand: 2. November 2026 – erste Version gebaut, noch nicht online.
 - `supabase/functions/fewo-uebersetzen/index.ts`: übersetzt Name und Beschreibung beim Speichern mit DeepL (Secret `DEEPL_KEY`).
 - `supabase/functions/fewo-ical/index.ts`: Abgleich mit FeWo-direkt per iCal in beide Richtungen (stündlich per pg_cron). Nur Daten, keine Gästenamen.
 - `sql/ferienwohnungen.sql`: einmal im SQL Editor von „Homepage_Alex_2“ ausführen (Tabellen `fewo_wohnungen`, `fewo_belegt`, Foto-Ordner `fewo`).
+- `sql/impressionen_stimmen.sql`: Tabellen `fewo_impressionen` (Fotos der Gegend, im Ordner `fewo/impressionen/`) und `fewo_stimmen` (wörtliche Zitate aus FeWo-direkt-Bewertungen, von Hand eingetragen). Kein offenes Gästebuch (Spam, Haftung).
+- `bilder/titelbild.jpg`: festes Titelbild (Blick ins Tal, Herbst).
 
 ## Ziel
 

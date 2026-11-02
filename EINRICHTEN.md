@@ -7,6 +7,8 @@ Alles im Supabase-Projekt **Homepage_Alex_2** (https://supabase.com/dashboard, A
 SQL Editor → New query → den ganzen Inhalt von `sql/ferienwohnungen.sql` einfügen → Run.
 Legt die Tabellen für Wohnungen, Belegung und Abgleich an, den Foto-Ordner `fewo` und den stündlichen Abgleich.
 
+Danach genauso `sql/impressionen_stimmen.sql` ausführen (Tabellen für Impressionen und Gästestimmen).
+
 ## 2. Funktion für FeWo-direkt
 
 Edge Functions → Deploy a new function → Via Editor:

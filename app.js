@@ -2,7 +2,10 @@
 
 const TEXTE = {
   de: {
-    nav_wohnungen: "Wohnungen", nav_lage: "Lage", nav_kontakt: "Kontakt",
+    nav_wohnungen: "Wohnungen", nav_impressionen: "Impressionen", nav_lage: "Lage", nav_kontakt: "Kontakt",
+    kicker_impressionen: "Die Gegend", titel_impressionen: "Impressionen aus dem Dahner Felsenland",
+    kicker_stimmen: "Gästestimmen", titel_stimmen: "Das sagen unsere Gäste",
+    stimmen_quelle: "über FeWo-direkt", alle_bewertungen: "Alle Bewertungen auf FeWo-direkt:",
     hero_kicker: "Dahner Felsenland · Pfälzerwald",
     hero_titel: "Ankommen. Durchatmen. Urlaub.",
     hero_text: "Zwei gemütliche Ferienwohnungen zwischen Wald und roten Sandsteinfelsen – ideal zum Wandern, Klettern und Durchatmen.",
@@ -27,7 +30,10 @@ const TEXTE = {
     impressum: "Impressum & Datenschutz"
   },
   en: {
-    nav_wohnungen: "Apartments", nav_lage: "Location", nav_kontakt: "Contact",
+    nav_wohnungen: "Apartments", nav_impressionen: "Impressions", nav_lage: "Location", nav_kontakt: "Contact",
+    kicker_impressionen: "The area", titel_impressionen: "Impressions of the Dahner Felsenland",
+    kicker_stimmen: "Guest reviews", titel_stimmen: "What our guests say",
+    stimmen_quelle: "via FeWo-direkt", alle_bewertungen: "All reviews on FeWo-direkt:",
     hero_kicker: "Dahner Felsenland · Palatinate Forest",
     hero_titel: "Arrive. Unwind. Holiday.",
     hero_text: "Two cosy holiday apartments between forest and red sandstone rocks – perfect for hiking, climbing and unwinding.",
@@ -52,7 +58,10 @@ const TEXTE = {
     impressum: "Legal notice & privacy"
   },
   fr: {
-    nav_wohnungen: "Appartements", nav_lage: "Situation", nav_kontakt: "Contact",
+    nav_wohnungen: "Appartements", nav_impressionen: "Impressions", nav_lage: "Situation", nav_kontakt: "Contact",
+    kicker_impressionen: "La région", titel_impressionen: "Impressions du Dahner Felsenland",
+    kicker_stimmen: "Avis des hôtes", titel_stimmen: "Ce que disent nos hôtes",
+    stimmen_quelle: "via FeWo-direkt", alle_bewertungen: "Tous les avis sur FeWo-direkt :",
     hero_kicker: "Dahner Felsenland · Forêt du Palatinat",
     hero_titel: "Arriver. Respirer. Profiter.",
     hero_text: "Deux appartements de vacances confortables entre forêt et rochers de grès rouge – idéal pour la randonnée, l'escalade et la détente.",
@@ -82,6 +91,8 @@ const $ = s => document.querySelector(s);
 let sprache = waehleSprache();
 let wohnungen = STANDARD_WOHNUNGEN;
 let belegt = [];
+let impressionen = [];
+let stimmen = [];
 
 function waehleSprache() {
   const url = new URLSearchParams(location.search).get("lang");
@@ -136,6 +147,14 @@ async function start() {
   } catch (e) {
     console.warn("Daten nicht geladen, zeige Platzhalter:", e);
   }
+  // Getrennt geladen: fehlen diese Tabellen noch, bleiben die Wohnungen trotzdem sichtbar.
+  const [i, s] = await Promise.all([
+    lade("fewo_impressionen?select=pfad,text_de,text_en,text_fr&order=sort").catch(() => []),
+    lade("fewo_stimmen?select=text,name,monat&order=sort").catch(() => [])
+  ]);
+  impressionen = i;
+  stimmen = s;
+  zeige();
 }
 
 function zeige() {
@@ -143,6 +162,9 @@ function zeige() {
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === sprache));
   document.querySelectorAll("[data-t]").forEach(el => el.textContent = t(el.dataset.t));
   document.querySelectorAll(".hinweis-sprache, .hinweis-klein").forEach(el => el.hidden = !t("nur_deutsch"));
+
+  zeigeImpressionen();
+  zeigeStimmen();
 
   const uebersicht = $("#uebersicht");
   uebersicht.textContent = "";
@@ -265,6 +287,62 @@ function baueWohnung(w) {
   return el;
 }
 
+function zeigeImpressionen() {
+  $("#impressionen").hidden = $("#nav-impressionen").hidden = !impressionen.length;
+  const box = $("#impressionen-fotos");
+  box.textContent = "";
+  const pfade = impressionen.map(b => b.pfad);
+  const texte = impressionen.map(b => feld(b, "text"));
+  impressionen.forEach((b, i) => {
+    const fig = document.createElement("figure");
+    const knopf = document.createElement("button");
+    knopf.type = "button";
+    const img = document.createElement("img");
+    img.src = FOTO_URL + encodeURI(b.pfad);
+    img.alt = texte[i] || t("titel_impressionen");
+    img.loading = "lazy";
+    knopf.append(img);
+    knopf.onclick = () => oeffneGalerie(pfade, i, texte);
+    fig.append(knopf);
+    if (texte[i]) {
+      const cap = document.createElement("figcaption");
+      cap.textContent = texte[i];
+      fig.append(cap);
+    }
+    box.append(fig);
+  });
+}
+
+function zeigeStimmen() {
+  $("#stimmen").hidden = !stimmen.length;
+  const box = $("#stimmen-liste");
+  box.textContent = "";
+  stimmen.forEach(s => {
+    const q = document.createElement("blockquote");
+    const p = document.createElement("p");
+    p.textContent = "„" + s.text + "“";
+    const wer = document.createElement("footer");
+    wer.textContent = [s.name, s.monat, t("stimmen_quelle")].filter(Boolean).join(" · ");
+    q.append(p, wer);
+    box.append(q);
+  });
+  const links = $("#bewertungen");
+  links.textContent = "";
+  const mitLink = wohnungen.filter(w => w.fewo_url);
+  links.hidden = !mitLink.length;
+  if (!mitLink.length) return;
+  links.append(t("alle_bewertungen") + " ");
+  mitLink.forEach((w, i) => {
+    if (i) links.append(" · ");
+    const a = document.createElement("a");
+    a.href = w.fewo_url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = feld(w, "name");
+    links.append(a);
+  });
+}
+
 function baueFotos(box, w) {
   const fotos = w.fotos || [];
   if (!fotos.length) {
@@ -296,9 +374,9 @@ function baueFotos(box, w) {
 }
 
 // ---------- Galerie ----------
-const galerie = { fotos: [], i: 0 };
-function oeffneGalerie(fotos, i) {
-  galerie.fotos = fotos; galerie.i = i;
+const galerie = { fotos: [], texte: [], i: 0 };
+function oeffneGalerie(fotos, i, texte = []) {
+  galerie.fotos = fotos; galerie.texte = texte; galerie.i = i;
   zeigeFoto();
   $("#galerie").showModal();
 }
@@ -306,6 +384,7 @@ function zeigeFoto() {
   const d = $("#galerie");
   d.querySelector("img").src = FOTO_URL + encodeURI(galerie.fotos[galerie.i]);
   d.querySelector(".zaehler").textContent = (galerie.i + 1) + " / " + galerie.fotos.length;
+  d.querySelector(".unterschrift").textContent = galerie.texte[galerie.i] || "";
 }
 function blaettern(s) {
   galerie.i = (galerie.i + s + galerie.fotos.length) % galerie.fotos.length;

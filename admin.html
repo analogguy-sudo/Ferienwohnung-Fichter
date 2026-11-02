@@ -37,6 +37,17 @@ button:disabled{opacity:.5;cursor:wait}
 .zeile{display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid #ddd8cc}
 .zeile span{flex:1}
 .zeile button{width:auto;margin:0;padding:6px 14px;background:#a33b2b}
+.zeile button.alt{background:none;color:#2f6b55;border:1px solid #2f6b55;padding:6px 10px}
+.gesamt{margin-top:3rem;padding-top:1rem;border-top:3px solid #2f6b55}
+.impression{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #ddd8cc}
+.impression img{width:120px;height:90px;object-fit:cover;border-radius:4px;display:block;background:#eee}
+.impression input{margin:0}
+.impression div div{display:flex;gap:6px;margin-top:6px}
+.impression button{width:auto;margin:0;padding:6px 12px;font-size:.9rem}
+.impression button.weg{background:#a33b2b}
+.stimme{flex-direction:column;align-items:stretch}
+.stimme em{font-style:italic}
+.stimme div{display:flex;gap:6px;justify-content:flex-end}
 </style>
 </head>
 <body>
@@ -115,6 +126,27 @@ button:disabled{opacity:.5;cursor:wait}
   <div class="fotos" id="fotos"></div>
   <label for="neueFotos">Fotos hinzufügen (mehrere möglich)</label>
   <input id="neueFotos" type="file" accept="image/*" multiple>
+
+  <div class="gesamt">
+    <p class="note">Ab hier gilt alles für die ganze Seite, nicht nur für eine Wohnung.</p>
+    <h2>Impressionen (Fotos der Gegend)</h2>
+    <p class="note">Nur eigene Fotos oder solche, bei denen der Fotograf zugestimmt hat. Die Bildunterschrift auf Deutsch eintragen; Englisch und Französisch werden beim Speichern übersetzt (wenn DeepL eingerichtet ist, sonst steht überall der deutsche Text).</p>
+    <div id="impListe" class="note"></div>
+    <label for="neueImpressionen">Fotos hinzufügen (mehrere möglich)</label>
+    <input id="neueImpressionen" type="file" accept="image/*" multiple>
+
+    <h2>Gästestimmen</h2>
+    <p class="note">Kurze Sätze aus Bewertungen bei FeWo-direkt, <strong>wörtlich</strong> abschreiben (kürzen ist okay, ändern nicht). Nur Vorname oder Initial, z. B. „Sabine aus Köln“. Die Zitate erscheinen in allen Sprachen im Original.</p>
+    <form id="stimmeForm">
+      <label for="stimmeText">Zitat *</label><textarea id="stimmeText" required maxlength="600" style="min-height:80px"></textarea>
+      <div class="row">
+        <div><label for="stimmeName">Name</label><input id="stimmeName" maxlength="80" placeholder="Sabine aus Köln"></div>
+        <div><label for="stimmeMonat">Monat</label><input id="stimmeMonat" maxlength="40" placeholder="Mai 2026"></div>
+        <div><label>&nbsp;</label><button type="submit" style="margin-top:5px">Hinzufügen</button></div>
+      </div>
+    </form>
+    <div id="stimmenListe" class="note"></div>
+  </div>
 </section>
 
 <p id="status" role="status" aria-live="polite"></p>
@@ -134,7 +166,7 @@ let wohnungen=[],aktiv=null;
 
 $("haken").innerHTML=Object.entries(AUSSTATTUNG).map(([k,v])=>'<label><input type="checkbox" value="'+k+'"> '+v.de+'</label>').join("");
 
-function view(on){$("login").hidden=on;$("editor").hidden=!on;if(on)ladeWohnungen()}
+function view(on){$("login").hidden=on;$("editor").hidden=!on;if(on){ladeWohnungen();ladeImpressionen();ladeStimmen()}}
 db.auth.onAuthStateChange((_e,s)=>view(!!s));
 db.auth.getSession().then(({data})=>view(!!data.session));
 
@@ -312,6 +344,110 @@ function zeigeFotos(){
     f.append(im,knoepfe);box.append(f);
   });
 }
+// ---------- Übersetzen (für Bildunterschriften) ----------
+async function uebersetze(de){
+  if(!de||!$("autoUebersetzen").checked)return null;
+  const {data,error}=await db.functions.invoke("fewo-uebersetzen",{body:{texte:[de]}});
+  return error||data?.fehler?null:{en:data.en[0],fr:data.fr[0]};
+}
+
+// ---------- Impressionen ----------
+const KEINE_TABELLE="Noch nicht eingerichtet: Bitte sql/impressionen_stimmen.sql im SQL Editor ausführen und die Seite neu laden.";
+let impressionen=[];
+async function ladeImpressionen(){
+  const box=$("impListe");
+  const {data,error}=await db.from("fewo_impressionen").select("*").order("sort").order("created_at");
+  if(error){box.textContent=KEINE_TABELLE;impressionen=null;return}
+  impressionen=data;
+  box.textContent=data.length?"":"Noch keine Fotos.";
+  data.forEach((b,i)=>{
+    const z=document.createElement("div");z.className="impression";
+    const im=document.createElement("img");im.src=FOTO_URL+encodeURI(b.pfad);im.alt="";
+    const rechts=document.createElement("div");
+    const ein=document.createElement("input");ein.value=b.text_de||"";ein.placeholder="Bildunterschrift (optional)";ein.maxLength=160;
+    const knoepfe=document.createElement("div");
+    const knopf=(text,cls,fn,aus)=>{const k=document.createElement("button");k.type="button";k.textContent=text;if(cls)k.className=cls;k.disabled=!!aus;k.onclick=fn;knoepfe.append(k)};
+    knopf("←","",()=>verschiebe("fewo_impressionen",impressionen,i,i-1,ladeImpressionen),i===0);
+    knopf("→","",()=>verschiebe("fewo_impressionen",impressionen,i,i+1,ladeImpressionen),i===data.length-1);
+    knopf("Text speichern","",async()=>{
+      const de=ein.value.trim()||null;msg("Wird gespeichert …");
+      const u=await uebersetze(de);
+      const r=await db.from("fewo_impressionen").update({text_de:de,text_en:u?.en||null,text_fr:u?.fr||null}).eq("id",b.id);
+      msg(r.error?"Fehler: "+r.error.message:"Gespeichert."+(de&&!u?" (ohne Übersetzung)":""));
+    });
+    knopf("×","weg",async()=>{
+      if(!confirm("Dieses Foto löschen?"))return;
+      const r=await db.from("fewo_impressionen").delete().eq("id",b.id);
+      if(r.error)return msg("Fehler: "+r.error.message);
+      await db.storage.from("fewo").remove([b.pfad]);msg("Foto gelöscht.");ladeImpressionen();
+    });
+    rechts.append(ein,knoepfe);z.append(im,rechts);box.append(z);
+  });
+}
+// Reihenfolge neu durchnummerieren, nachdem zwei Einträge getauscht wurden.
+async function verschiebe(tabelle,liste,i,j,danach){
+  const n=liste.slice();[n[i],n[j]]=[n[j],n[i]];
+  for(let k=0;k<n.length;k++){
+    const r=await db.from(tabelle).update({sort:k}).eq("id",n[k].id);
+    if(r.error)return msg("Fehler: "+r.error.message);
+  }
+  danach();
+}
+$("neueImpressionen").onchange=async()=>{
+  const ein=$("neueImpressionen");
+  if(!impressionen){ein.value="";return msg(KEINE_TABELLE)}
+  const files=[...ein.files];if(!files.length)return;
+  ein.disabled=true;
+  let sort=impressionen.reduce((m,b)=>Math.max(m,b.sort),0);
+  try{
+    for(let k=0;k<files.length;k++){
+      msg("Foto "+(k+1)+" von "+files.length+" wird hochgeladen …");
+      const p="impressionen/"+crypto.randomUUID()+".jpg";
+      const up=await db.storage.from("fewo").upload(p,await shrink(files[k]),{contentType:"image/jpeg"});
+      if(up.error)throw up.error;
+      const r=await db.from("fewo_impressionen").insert({pfad:p,sort:++sort});
+      if(r.error){await db.storage.from("fewo").remove([p]);throw r.error}
+    }
+    msg(files.length+" Foto(s) hinzugefügt.");
+  }catch(e){msg("Fehler: "+(e.message||e))}
+  finally{ein.value="";ein.disabled=false;ladeImpressionen()}
+};
+
+// ---------- Gästestimmen ----------
+let stimmen=[];
+async function ladeStimmen(){
+  const box=$("stimmenListe");
+  const {data,error}=await db.from("fewo_stimmen").select("*").order("sort").order("created_at");
+  if(error){box.textContent=KEINE_TABELLE;stimmen=null;return}
+  stimmen=data;
+  box.textContent=data.length?"":"Noch keine Gästestimmen.";
+  data.forEach((s,i)=>{
+    const z=document.createElement("div");z.className="zeile stimme";
+    const t=document.createElement("span");
+    const em=document.createElement("em");em.textContent="„"+s.text+"“";
+    t.append(em," – "+[s.name,s.monat].filter(Boolean).join(", "));
+    const knoepfe=document.createElement("div");
+    const knopf=(text,cls,fn,aus)=>{const k=document.createElement("button");k.type="button";k.textContent=text;if(cls)k.className=cls;k.disabled=!!aus;k.onclick=fn;knoepfe.append(k)};
+    knopf("↑","alt",()=>verschiebe("fewo_stimmen",stimmen,i,i-1,ladeStimmen),i===0);
+    knopf("↓","alt",()=>verschiebe("fewo_stimmen",stimmen,i,i+1,ladeStimmen),i===data.length-1);
+    knopf("Löschen","",async()=>{
+      if(!confirm("Diese Gästestimme löschen?"))return;
+      const r=await db.from("fewo_stimmen").delete().eq("id",s.id);
+      msg(r.error?"Fehler: "+r.error.message:"Gelöscht.");ladeStimmen();
+    });
+    z.append(t,knoepfe);box.append(z);
+  });
+}
+$("stimmeForm").onsubmit=async e=>{
+  e.preventDefault();
+  if(!stimmen)return msg(KEINE_TABELLE);
+  const text=$("stimmeText").value.trim().replace(/^[„"“]+|[“"”]+$/g,"");
+  if(!text)return;
+  const r=await db.from("fewo_stimmen").insert({text,name:$("stimmeName").value.trim()||null,monat:$("stimmeMonat").value.trim()||null,sort:stimmen.reduce((m,s)=>Math.max(m,s.sort),0)+1});
+  if(r.error)return msg("Fehler: "+r.error.message);
+  $("stimmeForm").reset();msg("Gästestimme hinzugefügt.");ladeStimmen();
+};
+
 $("neueFotos").onchange=async()=>{
   if(!wohnung()){$("neueFotos").value="";return msg(KEINE_DB)}
   const files=[...$("neueFotos").files];if(!files.length)return;

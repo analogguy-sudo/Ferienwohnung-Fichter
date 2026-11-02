@@ -145,6 +145,21 @@ a { color: var(--fels); }
 .punkt.frei { background: var(--frei); border: 1px solid #c2cfb6; }
 .punkt.belegt { background: var(--belegt); }
 
+/* ---------- Impressionen ---------- */
+.impressionen { columns: 3 280px; column-gap: 16px; }
+.impressionen figure { break-inside: avoid; margin: 0 0 16px; }
+.impressionen button { display: block; width: 100%; padding: 0; border: 0; border-radius: var(--rund); overflow: hidden; cursor: zoom-in; background: var(--karte); }
+.impressionen img { display: block; width: 100%; height: auto; transition: transform .6s ease; }
+.impressionen button:hover img { transform: scale(1.03); }
+.impressionen figcaption { padding: 8px 2px 0; font-size: .88rem; color: var(--leise); }
+
+/* ---------- Gästestimmen ---------- */
+.stimmen { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+.stimmen blockquote { margin: 0; padding: 28px 28px 24px; background: var(--karte); border: 1px solid var(--linie); border-top: 3px solid var(--fels); border-radius: var(--rund); }
+.stimmen p { margin: 0 0 16px; font-family: var(--serif); font-style: italic; font-size: 1.15rem; line-height: 1.5; color: var(--text); }
+.stimmen footer { font-size: .85rem; color: var(--leise); letter-spacing: .02em; }
+.bewertungen { margin: 28px 0 0; font-size: .95rem; color: var(--leise); }
+
 /* ---------- Lage & Kontakt ---------- */
 .lage { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; }
 .lage p { max-width: 36em; }
@@ -170,13 +185,15 @@ a { color: var(--fels); }
 /* ---------- Galerie ---------- */
 #galerie { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(24,30,24,.96); }
 #galerie[open] { display: flex; align-items: center; justify-content: center; }
-#galerie img { max-width: 90vw; max-height: 86vh; object-fit: contain; }
+#galerie img { max-width: 90vw; max-height: 80vh; object-fit: contain; }
 #galerie button { position: absolute; display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; border: 0; border-radius: var(--rund); background: rgba(255,255,255,.1); color: #fff; font-size: 1.8rem; cursor: pointer; }
 #galerie button:hover { background: rgba(255,255,255,.22); }
 #galerie .zu { top: 16px; right: 16px; }
 #galerie .links { left: 16px; }
 #galerie .rechts { right: 16px; }
 #galerie .zaehler { position: absolute; bottom: 14px; margin: 0; color: #bbb; font-size: .9rem; }
+#galerie .unterschrift { position: absolute; bottom: 40px; left: 0; right: 0; margin: 0; padding: 0 70px; text-align: center; color: #eee; font-size: 1rem; }
+#galerie .unterschrift:empty { display: none; }
 
 /* ---------- Kleine Bildschirme ---------- */
 @media (max-width: 1000px) {
@@ -190,7 +207,8 @@ a { color: var(--fels); }
   body { font-size: 16px; }
   .top { flex-wrap: wrap; gap: 6px 10px; padding: 10px 16px; }
   .top .logo { font-size: 1.1rem; gap: 7px; }
-  .menu { order: 3; width: 100%; gap: 22px; font-size: .9rem; }
+  .menu { order: 3; width: 100%; flex-wrap: wrap; gap: 2px 16px; font-size: .88rem; letter-spacing: 0; }
+  .menu a { letter-spacing: 0; }
   .hero { padding: 40px 16px 0; }
   .fakten { flex-direction: column; gap: 8px; margin: 32px 0 24px; }
   .hero-bild { height: 300px; margin: 0 -16px; border-radius: 0; }

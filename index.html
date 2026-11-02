@@ -7,7 +7,7 @@
 <meta name="description" content="Zwei Ferienwohnungen der Familie Fichter – Fotos, Ausstattung, Preise und freie Termine.">
 <meta name="theme-color" content="#fbf8f3">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=13">
 </head>
 <body>
 
@@ -29,6 +29,7 @@
   <a class="logo" href="#start"><svg class="ic"><use href="#i-haus"/></svg>Ferienwohnung Fichter</a>
   <nav class="menu">
     <a href="#wohnungen" data-t="nav_wohnungen">Wohnungen</a>
+    <a href="#impressionen" id="nav-impressionen" data-t="nav_impressionen" hidden>Impressionen</a>
     <a href="#lage" data-t="nav_lage">Lage</a>
     <a href="#kontakt" data-t="nav_kontakt">Kontakt</a>
   </nav>
@@ -66,6 +67,23 @@
   </div>
   <div id="uebersicht" class="uebersicht"></div>
   <div id="liste"></div>
+</section>
+
+<section id="impressionen" class="bereich ton" hidden>
+  <div class="bereich-kopf">
+    <p class="kicker" data-t="kicker_impressionen">Die Gegend</p>
+    <h2 data-t="titel_impressionen">Impressionen aus dem Dahner Felsenland</h2>
+  </div>
+  <div id="impressionen-fotos" class="impressionen"></div>
+</section>
+
+<section id="stimmen" class="bereich" hidden>
+  <div class="bereich-kopf">
+    <p class="kicker" data-t="kicker_stimmen">Gästestimmen</p>
+    <h2 data-t="titel_stimmen">Das sagen unsere Gäste</h2>
+  </div>
+  <div id="stimmen-liste" class="stimmen"></div>
+  <p id="bewertungen" class="bewertungen"></p>
 </section>
 
 <section id="lage" class="bereich ton">
@@ -108,6 +126,7 @@
   <img alt="">
   <button type="button" class="pfeil rechts" aria-label="Weiter">›</button>
   <p class="zaehler"></p>
+  <p class="unterschrift"></p>
 </dialog>
 
 <template id="vorlage-wohnung">
@@ -144,7 +163,7 @@
   </article>
 </template>
 
-<script src="daten.js?v=10"></script>
-<script src="app.js?v=10"></script>
+<script src="daten.js?v=13"></script>
+<script src="app.js?v=13"></script>
 </body>
 </html>
