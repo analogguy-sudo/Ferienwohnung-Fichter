@@ -26,6 +26,7 @@ create table public.fewo_belegt (
   wohnung text not null references public.fewo_wohnungen(id) on delete cascade,
   von date not null,
   bis date not null,
+  quelle text not null default 'admin' check (quelle in ('admin', 'fewo')),
   check (bis > von)
 );
 create index on public.fewo_belegt (wohnung, bis);
@@ -36,8 +37,9 @@ alter table public.fewo_belegt enable row level security;
 create policy "FeWo: Wohnungen lesen" on public.fewo_wohnungen for select using (true);
 create policy "FeWo: Wohnungen ändern" on public.fewo_wohnungen for update to authenticated using (public.is_fewo_admin()) with check (public.is_fewo_admin());
 create policy "FeWo: Belegung lesen" on public.fewo_belegt for select using (true);
-create policy "FeWo: Belegung anlegen" on public.fewo_belegt for insert to authenticated with check (public.is_fewo_admin());
-create policy "FeWo: Belegung löschen" on public.fewo_belegt for delete to authenticated using (public.is_fewo_admin());
+-- Einträge von FeWo-direkt (quelle = 'fewo') schreibt nur die Funktion fewo-ical.
+create policy "FeWo: Belegung anlegen" on public.fewo_belegt for insert to authenticated with check (public.is_fewo_admin() and quelle = 'admin');
+create policy "FeWo: Belegung löschen" on public.fewo_belegt for delete to authenticated using (public.is_fewo_admin() and quelle = 'admin');
 grant select on public.fewo_wohnungen, public.fewo_belegt to anon, authenticated;
 grant update on public.fewo_wohnungen to authenticated;
 grant insert, delete on public.fewo_belegt to authenticated;
@@ -52,5 +54,28 @@ insert into public.fewo_wohnungen (id, sort, name_de, name_en, name_fr, text_de,
    'Hier steht bald die Beschreibung der ersten Wohnung.', 'A description of the first apartment will follow soon.', 'La description du premier appartement suivra bientôt.'),
   ('wohnung-2', 2, 'Wohnung 2', 'Apartment 2', 'Appartement 2',
    'Hier steht bald die Beschreibung der zweiten Wohnung.', 'A description of the second apartment will follow soon.', 'La description du deuxième appartement suivra bientôt.');
+
+-- Abgleich mit FeWo-direkt. Der iCal-Link von FeWo-direkt ist geheim: nur Admins lesen ihn.
+create table public.fewo_abgleich (
+  wohnung text primary key references public.fewo_wohnungen(id) on delete cascade,
+  import_url text,
+  letzter_abgleich timestamptz,
+  fehler text
+);
+alter table public.fewo_abgleich enable row level security;
+create policy "FeWo: Abgleich lesen" on public.fewo_abgleich for select to authenticated using (public.is_fewo_admin());
+create policy "FeWo: Abgleich ändern" on public.fewo_abgleich for update to authenticated using (public.is_fewo_admin()) with check (public.is_fewo_admin());
+grant select, update (import_url) on public.fewo_abgleich to authenticated;
+insert into public.fewo_abgleich (wohnung) values ('wohnung-1'), ('wohnung-2');
+
+-- Jede Stunde (zur Minute 15) holt die Funktion die Buchungen von FeWo-direkt.
+create extension if not exists pg_cron;
+create extension if not exists pg_net;
+select cron.schedule('fewo-abgleich', '15 * * * *', $$
+  select net.http_post(
+    url := 'https://owbbsnujnkhyyqvagtai.supabase.co/functions/v1/fewo-ical?abgleich=1',
+    headers := '{"Content-Type": "application/json"}'::jsonb,
+    body := '{}'::jsonb)
+$$);
 
 NOTIFY pgrst, 'reload schema';

@@ -18,6 +18,7 @@ Stand: 2. November 2026 – erste Version gebaut, noch nicht online.
 - `daten.js`: Supabase-Zugang, Kontaktdaten, Liste der Ausstattung (DE/EN/FR), Platzhalter.
 - `admin.html`: Preise, Texte, Ausstattung, Fotos und belegte Tage pflegen.
 - `impressum.html`: Impressum und Datenschutz – Platzhalter in [eckigen Klammern] müssen vor dem Veröffentlichen ausgefüllt werden.
+- `supabase/functions/fewo-ical/index.ts`: Abgleich mit FeWo-direkt per iCal in beide Richtungen (stündlich per pg_cron). Nur Daten, keine Gästenamen.
 - `sql/ferienwohnungen.sql`: einmal im SQL Editor von „Homepage_Alex_2“ ausführen (Tabellen `fewo_wohnungen`, `fewo_belegt`, Foto-Ordner `fewo`).
 
 ## Ziel
@@ -35,7 +36,7 @@ Eine neue Webseite für die Ferienwohnungen von Alexanders Vater. Sie ersetzt di
 ## Offen (Alexander daran erinnern)
 
 - **Impressum ausfüllen** (Name und Adresse des Vaters, Telefon, E-Mail) – vor dem Veröffentlichen! Alexander hat am 2. November 2026 ausdrücklich um Erinnerung gebeten.
-- Abgleich mit FeWo-direkt per iCal, in beide Richtungen: Buchungen von FeWo-direkt in den Kalender holen, eigene Einträge aus dem Admin-Bereich an FeWo-direkt geben.
+- Einrichten nach `EINRICHTEN.md` (SQL, Funktion fewo-ical, FeWo-direkt verbinden).
 - Bei FeWo-direkt „Buchungsanfrage“ statt „Sofortbuchung“ einstellen, damit der Vater annehmen oder ablehnen kann.
 
 ## Noch zu klären (vor dem Bauen fragen, inzwischen beantwortet)

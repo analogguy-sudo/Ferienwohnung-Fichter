@@ -66,6 +66,18 @@ button:disabled{opacity:.5;cursor:wait}
   </form>
   <div id="belegtListe" class="note"></div>
 
+  <h2>Abgleich mit FeWo-direkt</h2>
+  <p class="note">Buchungen von FeWo-direkt kommen jede Stunde automatisch in den Kalender. Sie stehen oben mit „FeWo-direkt“ und lassen sich hier nicht löschen (dafür bei FeWo-direkt stornieren).</p>
+  <form id="abgleichForm">
+    <label for="import_url">iCal-Link von FeWo-direkt (Kalender → Exportieren)</label>
+    <input id="import_url" type="url" placeholder="https://www.fewo-direkt.de/icalendar/…">
+    <button type="submit">Link speichern</button>
+  </form>
+  <p class="note" id="abgleichStatus"></p>
+  <button id="jetztAbgleichen" type="button" class="alt">Jetzt abgleichen</button>
+  <label for="export_url">Diesen Link bei FeWo-direkt unter Kalender → Importieren eintragen, damit deine Einträge dort gesperrt werden:</label>
+  <input id="export_url" readonly onclick="this.select()">
+
   <h2>Preis und Eckdaten</h2>
   <form id="datenForm">
     <div class="row">
@@ -150,7 +162,7 @@ async function ladeWohnungen(){
     b.onclick=()=>{aktiv=w.id;ladeWohnungen()};
     $("tabs").append(b);
   });
-  zeigeWohnung();ladeBelegt();
+  zeigeWohnung();ladeBelegt();ladeAbgleich();
 }
 const wohnung=()=>wohnungen.find(w=>w.id===aktiv);
 
@@ -185,7 +197,9 @@ async function ladeBelegt(){
   box.textContent=data.length?"":"Keine belegten Tage eingetragen.";
   data.forEach(b=>{
     const z=document.createElement("div");z.className="zeile";
-    const s=document.createElement("span");s.textContent=datum(b.von)+"  →  "+datum(b.bis);
+    const s=document.createElement("span");s.textContent=datum(b.von)+"  →  "+datum(b.bis)+(b.quelle==="fewo"?"  ·  FeWo-direkt":"");
+    z.append(s);box.append(z);
+    if(b.quelle==="fewo")return;
     const x=document.createElement("button");x.type="button";x.textContent="Löschen";
     x.onclick=async()=>{
       if(!confirm("Diesen Zeitraum wieder freigeben?"))return;
@@ -194,9 +208,37 @@ async function ladeBelegt(){
       if(d.error){msg("Fehler: "+d.error.message);x.disabled=false;return}
       msg("Freigegeben.");ladeBelegt();
     };
-    z.append(s,x);box.append(z);
+    z.append(x);
   });
 }
+
+// ---------- Abgleich mit FeWo-direkt ----------
+const FUNKTION=SB_URL+"/functions/v1/fewo-ical";
+async function ladeAbgleich(){
+  $("export_url").value=FUNKTION+"?wohnung="+aktiv;
+  const {data,error}=await db.from("fewo_abgleich").select("*").eq("wohnung",aktiv).maybeSingle();
+  if(error){$("abgleichStatus").textContent="Fehler: "+error.message;return}
+  $("import_url").value=data?.import_url||"";
+  $("abgleichStatus").textContent=!data?.import_url?"Noch kein Link eingetragen."
+    :!data.letzter_abgleich?"Noch nicht abgeglichen."
+    :"Letzter Abgleich: "+new Date(data.letzter_abgleich).toLocaleString("de-DE")+(data.fehler?"  ·  Fehler: "+data.fehler:"  ·  ok");
+}
+$("abgleichForm").onsubmit=async e=>{
+  e.preventDefault();
+  const r=await db.from("fewo_abgleich").update({import_url:$("import_url").value.trim()||null}).eq("wohnung",aktiv);
+  if(r.error)return msg("Fehler: "+r.error.message);
+  msg("Link gespeichert.");ladeAbgleich();
+};
+$("jetztAbgleichen").onclick=async()=>{
+  const b=$("jetztAbgleichen");b.disabled=true;msg("Abgleich läuft …");
+  try{
+    const r=await fetch(FUNKTION+"?abgleich=1",{method:"POST"});
+    if(!r.ok)throw new Error("Funktion antwortet mit "+r.status+" (ist sie schon eingerichtet?)");
+    const e=await r.json();
+    msg("Abgleich: "+Object.entries(e).map(([w,t])=>w+": "+t).join(" · "));
+    ladeBelegt();ladeAbgleich();
+  }catch(err){msg("Fehler: "+err.message)}finally{b.disabled=false}
+};
 $("belegtForm").onsubmit=async e=>{
   e.preventDefault();
   const von=$("von").value,bis=$("bis").value;
