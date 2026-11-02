@@ -36,7 +36,7 @@ Eine neue Webseite für die Ferienwohnungen von Alexanders Vater. Sie ersetzt di
 
 ## Offen (Alexander daran erinnern)
 
-- **Impressum ausfüllen** (Name und Adresse des Vaters, Telefon, E-Mail) – vor dem Veröffentlichen! Alexander hat am 2. November 2026 ausdrücklich um Erinnerung gebeten.
+- **Impressum ausfüllen**: Name und Adresse sind drin (Ludwig Fichter, Von-Gienanth-Straße 9, 66996 Schönau). Es fehlen noch Telefon und E-Mail (auch in `daten.js`) – vor dem Veröffentlichen! Alexander hat am 2. November 2026 ausdrücklich um Erinnerung gebeten.
 - Einrichten nach `EINRICHTEN.md` (SQL, Funktion fewo-ical, FeWo-direkt verbinden).
 - Bei FeWo-direkt „Buchungsanfrage“ statt „Sofortbuchung“ einstellen, damit der Vater annehmen oder ablehnen kann.
 

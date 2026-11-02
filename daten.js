@@ -6,7 +6,7 @@ const SB_KEY = "sb_publishable_29TK9hJ-e8e4eW9rp_eA8A__EHL2Kga";
 const FOTO_URL = SB_URL + "/storage/v1/object/public/fewo/";
 
 const KONTAKT = {
-  name: "Familie Fichter",
+  name: "Ludwig Fichter",
   telefon: "",          // z. B. "+49 123 456789"
   email: "",            // z. B. "ferienwohnung@beispiel.de"
   adresse: "Von-Gienanth-Straße 9, 66996 Schönau (Pfalz)"   // daraus entstehen die Links zu Google Maps und Apple Karten
