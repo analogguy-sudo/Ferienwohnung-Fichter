@@ -20,7 +20,8 @@ button:disabled{opacity:.5;cursor:wait}
 @media(max-width:560px){.row{grid-template-columns:1fr}}
 .note{color:#5f6d66;font-size:.9rem}
 #status{position:sticky;bottom:0;margin:20px 0 0;padding:10px 0;background:#fbfaf6;overflow-wrap:anywhere;color:#2f6b55}
-.tabs{display:flex;gap:8px;margin-top:20px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.tabs button{width:auto;padding:9px 16px}
 .tabs button{margin:0;background:none;color:#2f6b55;border:1px solid #2f6b55}
 .tabs button[aria-pressed="true"]{background:#2f6b55;color:#fff}
 .haken{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 14px;margin-top:8px}
@@ -38,7 +39,6 @@ button:disabled{opacity:.5;cursor:wait}
 .zeile span{flex:1}
 .zeile button{width:auto;margin:0;padding:6px 14px;background:#a33b2b}
 .zeile button.alt{background:none;color:#2f6b55;border:1px solid #2f6b55;padding:6px 10px}
-.gesamt{margin-top:3rem;padding-top:1rem;border-top:3px solid #2f6b55}
 .impression{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center;padding:10px 0;border-top:1px solid #ddd8cc}
 .impression img{width:120px;height:90px;object-fit:cover;border-radius:4px;display:block;background:#eee}
 .impression input{margin:0}
@@ -70,6 +70,7 @@ button:disabled{opacity:.5;cursor:wait}
   <button id="logout" type="button" class="alt">Abmelden</button>
   <div class="tabs" id="tabs"></div>
 
+  <div id="wohnungTeil">
   <h2>Belegte Tage</h2>
   <p class="note">Anreise und Abreise eintragen. Der Abreisetag bleibt frei, dann kann am selben Tag der nächste Gast anreisen.</p>
   <form id="belegtForm" class="row">
@@ -126,9 +127,10 @@ button:disabled{opacity:.5;cursor:wait}
   <div class="fotos" id="fotos"></div>
   <label for="neueFotos">Fotos hinzufügen (mehrere möglich)</label>
   <input id="neueFotos" type="file" accept="image/*" multiple>
+  </div>
 
-  <div class="gesamt">
-    <p class="note">Ab hier gilt alles für die ganze Seite, nicht nur für eine Wohnung.</p>
+  <div id="seiteTeil" hidden>
+    <p class="note">Hier pflegst du Dinge für die ganze Seite, nicht für eine bestimmte Wohnung. Beide Bereiche erscheinen auf der Startseite, sobald mindestens ein Foto bzw. eine Gästestimme eingetragen ist.</p>
     <h2>Impressionen (Fotos der Gegend)</h2>
     <p class="note">Nur eigene Fotos oder solche, bei denen der Fotograf zugestimmt hat. Die Bildunterschrift auf Deutsch eintragen; Englisch und Französisch werden beim Speichern übersetzt (wenn DeepL eingerichtet ist, sonst steht überall der deutsche Text).</p>
     <div id="impListe" class="note"></div>
@@ -162,7 +164,7 @@ const $=id=>document.getElementById(id);
 const msg=t=>{$("status").textContent=t};
 const ZAHLEN=["preis_ab","mindest_naechte","gaeste","schlafzimmer","qm"];
 const TEXTFELDER=["name_de","name_en","name_fr","text_de","text_en","text_fr","fewo_url"];
-let wohnungen=[],aktiv=null;
+let wohnungen=[],aktiv=null,seite=false;
 
 $("haken").innerHTML=Object.entries(AUSSTATTUNG).map(([k,v])=>'<label><input type="checkbox" value="'+k+'"> '+v.de+'</label>').join("");
 
@@ -193,10 +195,15 @@ async function ladeWohnungen(){
   $("tabs").textContent="";
   data.forEach(w=>{
     const b=document.createElement("button");b.type="button";b.textContent=w.name_de||w.id;
-    b.setAttribute("aria-pressed",w.id===aktiv);
-    b.onclick=()=>{aktiv=w.id;ladeWohnungen()};
+    b.setAttribute("aria-pressed",w.id===aktiv&&!seite);
+    b.onclick=()=>{aktiv=w.id;seite=false;ladeWohnungen()};
     $("tabs").append(b);
   });
+  const b=document.createElement("button");b.type="button";b.textContent="Impressionen & Gästestimmen";
+  b.setAttribute("aria-pressed",seite);
+  b.onclick=()=>{seite=true;ladeWohnungen()};
+  $("tabs").append(b);
+  $("wohnungTeil").hidden=seite;$("seiteTeil").hidden=!seite;
   zeigeWohnung();ladeBelegt();ladeAbgleich();
 }
 const wohnung=()=>wohnungen.find(w=>w.id===aktiv);
