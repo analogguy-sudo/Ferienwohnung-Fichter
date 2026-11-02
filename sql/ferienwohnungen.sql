@@ -4,7 +4,7 @@
 
 create or replace function public.is_fewo_admin() returns boolean
   language sql stable set search_path = ''
-  as $$ select lower(coalesce(auth.jwt() ->> 'email', '')) in ('a_t_f@outlook.de', 'fichter_alexander@icloud.com') $$;
+  as $$ select lower(coalesce(auth.jwt() ->> 'email', '')) in ('a_t_f@outlook.de', 'fichter_alexander@icloud.com', 'fichter-alexander@outlook.de') $$;
 
 create table public.fewo_wohnungen (
   id text primary key,
