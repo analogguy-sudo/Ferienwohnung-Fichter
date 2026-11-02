@@ -7,7 +7,7 @@
 <meta name="description" content="Zwei Ferienwohnungen der Familie Fichter – Fotos, Ausstattung, Preise und freie Termine.">
 <meta name="theme-color" content="#fbf8f3">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 
@@ -75,7 +75,10 @@
       <h2 data-t="titel_lage">So finden Sie uns</h2>
       <p data-t="lage_text">Beschreibung der Lage und Anfahrt folgt.</p>
       <p id="adresse" class="mit-ic" hidden><svg class="ic"><use href="#i-ort"/></svg><span></span></p>
-      <a id="karte" class="knopf rand" target="_blank" rel="noopener" hidden><span data-t="karte">Auf der Karte ansehen</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+      <div id="karten" class="karten" hidden>
+        <a id="karte-google" class="knopf rand" target="_blank" rel="noopener"><span data-t="karte_google">Google Maps</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+        <a id="karte-apple" class="knopf rand" target="_blank" rel="noopener"><span data-t="karte_apple">Apple Karten</span><svg class="ic"><use href="#i-pfeil"/></svg></a>
+      </div>
     </div>
     <div class="lage-bild" aria-hidden="true"><svg class="ic"><use href="#i-ort"/></svg></div>
   </div>
@@ -141,7 +144,7 @@
   </article>
 </template>
 
-<script src="daten.js?v=9"></script>
-<script src="app.js?v=9"></script>
+<script src="daten.js?v=10"></script>
+<script src="app.js?v=10"></script>
 </body>
 </html>

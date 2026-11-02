@@ -148,6 +148,7 @@ a { color: var(--fels); }
 /* ---------- Lage & Kontakt ---------- */
 .lage { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; }
 .lage p { max-width: 36em; }
+.karten { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
 .lage-bild { display: flex; align-items: center; justify-content: center; aspect-ratio: 4 / 3; border-radius: var(--rund); color: var(--fels);
   background: repeating-linear-gradient(0deg, transparent 0 38px, rgba(51,80,59,.08) 38px 39px), repeating-linear-gradient(90deg, transparent 0 38px, rgba(51,80,59,.08) 38px 39px), var(--karte); border: 1px solid var(--linie); }
 .lage-bild .ic { width: 56px; height: 56px; }

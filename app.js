@@ -19,8 +19,8 @@ const TEXTE = {
     preis_ab: "ab", pro_nacht: "/ Nacht", preis_anfrage: "Preis auf Anfrage",
     mindest: n => "Mindestaufenthalt " + n + (n == 1 ? " Nacht" : " Nächte"),
     keine_fotos: "Fotos folgen",
-    lage_text: "Die Wohnungen liegen im Dahner Felsenland im südlichen Pfälzerwald (Wasgau) – einer Landschaft aus Wald, Burgruinen und roten Sandsteinfelsen. Genaue Adresse und Anfahrt folgen.",
-    karte: "Auf der Karte ansehen",
+    lage_text: "Die Wohnungen liegen im Dahner Felsenland im südlichen Pfälzerwald (Wasgau) – einer Landschaft aus Wald, Burgruinen und roten Sandsteinfelsen.",
+    karte_google: "Google Maps", karte_apple: "Apple Karten",
     kontakt_text: "Am einfachsten buchen Sie direkt über FeWo-direkt. Bei Fragen erreichen Sie uns so:",
     kontakt_folgt: "Kontaktdaten folgen.",
     details: "Details & freie Termine",
@@ -44,8 +44,8 @@ const TEXTE = {
     preis_ab: "from", pro_nacht: "/ night", preis_anfrage: "Price on request",
     mindest: n => "Minimum stay " + n + (n == 1 ? " night" : " nights"),
     keine_fotos: "Photos coming soon",
-    lage_text: "The apartments are in the Dahner Felsenland in the southern Palatinate Forest (Wasgau) – a landscape of forest, castle ruins and red sandstone rocks. Exact address and directions will follow.",
-    karte: "View on map",
+    lage_text: "The apartments are in the Dahner Felsenland in the southern Palatinate Forest (Wasgau) – a landscape of forest, castle ruins and red sandstone rocks.",
+    karte_google: "Google Maps", karte_apple: "Apple Maps",
     kontakt_text: "The easiest way to book is directly via FeWo-direkt. For questions you can reach us here:",
     kontakt_folgt: "Contact details will follow.",
     details: "Details & availability",
@@ -69,8 +69,8 @@ const TEXTE = {
     preis_ab: "à partir de", pro_nacht: "/ nuit", preis_anfrage: "Prix sur demande",
     mindest: n => "Séjour minimum " + n + (n == 1 ? " nuit" : " nuits"),
     keine_fotos: "Photos à venir",
-    lage_text: "Les appartements se trouvent dans le Dahner Felsenland, au sud de la forêt du Palatinat (Wasgau) – un paysage de forêts, de châteaux en ruine et de rochers de grès rouge. L'adresse exacte et l'accès suivront.",
-    karte: "Voir sur la carte",
+    lage_text: "Les appartements se trouvent dans le Dahner Felsenland, au sud de la forêt du Palatinat (Wasgau) – un paysage de forêts, de châteaux en ruine et de rochers de grès rouge.",
+    karte_google: "Google Maps", karte_apple: "Plans (Apple)",
     kontakt_text: "Le plus simple est de réserver directement sur FeWo-direkt. Pour toute question :",
     kontakt_folgt: "Coordonnées à venir.",
     details: "Détails & disponibilités",
@@ -154,8 +154,11 @@ function zeige() {
 
   $("#adresse").hidden = !KONTAKT.adresse;
   $("#adresse span").textContent = KONTAKT.adresse;
-  $("#karte").hidden = !KONTAKT.karte;
-  if (KONTAKT.karte) $("#karte").href = KONTAKT.karte;
+  // Kein eingebettetes Kartenfenster: nur Links, so lädt die Seite nichts von Google oder Apple.
+  const ziel = encodeURIComponent(KONTAKT.adresse);
+  $("#karten").hidden = !KONTAKT.adresse;
+  $("#karte-google").href = "https://www.google.com/maps/search/?api=1&query=" + ziel;
+  $("#karte-apple").href = "https://maps.apple.com/?address=" + ziel;
 
   const kl = $("#kontaktliste");
   kl.textContent = "";

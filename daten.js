@@ -9,8 +9,7 @@ const KONTAKT = {
   name: "Familie Fichter",
   telefon: "",          // z. B. "+49 123 456789"
   email: "",            // z. B. "ferienwohnung@beispiel.de"
-  adresse: "",          // z. B. "Musterstraße 1, 12345 Musterort"
-  karte: ""             // Link zu OpenStreetMap oder Google Maps
+  adresse: "Von-Gienanth-Straße 9, 66996 Schönau (Pfalz)"   // daraus entstehen die Links zu Google Maps und Apple Karten
 };
 
 // Ausstattung: Schlüssel → Text in jeder Sprache. Im Admin-Bereich per Häkchen wählbar.
